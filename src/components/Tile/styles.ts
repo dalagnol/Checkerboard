@@ -16,5 +16,6 @@ export const Tile = styled.div<Props>`
   grid-row-start: ${({ row }) => row + 1};
   grid-row-end: ${({ row }) => row + 2};
 
-  background-color: ${({ checked }) => (checked ? "black" : "white")};
+  background-color: ${({ checked, theme }) =>
+    checked ? theme.tile?.checked : theme.tile?.unchecked};
 `;

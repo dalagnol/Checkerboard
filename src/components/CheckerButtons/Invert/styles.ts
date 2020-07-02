@@ -18,5 +18,6 @@ export const Invert = styled(DropletHalf)<Props>`
   grid-row-start: 1;
   grid-row-end: 2;
 
-  color: ${({ checked }) => (checked ? `white` : `black`)};
+  color: ${({ checked, theme }) =>
+    checked ? theme.tile?.unchecked : theme.tile?.checked};
 `;
