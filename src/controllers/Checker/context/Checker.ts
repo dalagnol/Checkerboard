@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 import { ICheckerContext } from "interfaces/checker";
 
-export const CheckerContext = createContext<ICheckerContext>({
+export const Checker = createContext<ICheckerContext>({
   grid: [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

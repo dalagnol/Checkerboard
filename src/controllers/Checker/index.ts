@@ -1,2 +1,2 @@
 export { CheckerBoard } from "./Checker";
-export { CheckerContext } from "./CheckerContext";
+export { CheckerContext } from "./context";
