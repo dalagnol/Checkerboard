@@ -1,0 +1,14 @@
+{
+  "light": {
+    "backgroundColor": "#ff5733",
+    "boxShadow": "#00000044",
+    "hover": "#00000066",
+    "active": "#e2640d"
+  },
+  "dark": {
+    "backgroundColor": "#e2640d",
+    "boxShadow": "#00000044",
+    "hover": "#00000022",
+    "active": "#ff5733"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "en": {
+    "Credential": "Credential",
+    "Password": "Password",
+    "Login": "Login"
+  },
+  "pt": {
+    "Credential": "Credencial",
+    "Password": "Senha",
+    "Login": "Entrar"
+  }
+}

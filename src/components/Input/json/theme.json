@@ -1,0 +1,16 @@
+{
+  "light": {
+    "backgroundColor": "#eeeeee",
+    "color": "#222222",
+    "boxShadow": "#00000044",
+    "hover": "#00000066",
+    "focus": "#dddddd"
+  },
+  "dark": {
+    "backgroundColor": "#222222",
+    "color": "#eeeeee",
+    "boxShadow": "#00000044",
+    "hover": "#666666",
+    "focus": "#444444"
+  }
+}

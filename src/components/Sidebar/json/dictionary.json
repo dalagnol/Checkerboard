@@ -1,0 +1,24 @@
+{
+  "en": {
+    "Switch to": "Switch to",
+    "Use": "Use",
+    "English": "English",
+    "Portuguese": "Portuguese",
+    "Dark Mode": "Dark Mode",
+    "Light Mode": "Light Mode",
+    "Logout": "Logout",
+    "Main": "Main",
+    "Profile": "Profile"
+  },
+  "pt": {
+    "Switch para": "Mudar para",
+    "Use": "Usar",
+    "English": "Inglês",
+    "Portuguese": "Português",
+    "Dark Mode": "Modo Escuro",
+    "Light Mode": "Modo Claro",
+    "Logout": "Sair",
+    "Main": "Menu",
+    "Profile": "Perfil"
+  }
+}

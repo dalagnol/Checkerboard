@@ -1,0 +1,12 @@
+{
+  "light": {
+    "backgroundColor": "#eeeeee",
+    "checked": "#ff5733",
+    "hover": "#cccccc"
+  },
+  "dark": {
+    "backgroundColor": "#555555",
+    "checked": "#e2640d",
+    "hover": "#999999"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "en": {
+    "Welcome": "Welcome"
+  },
+  "pt": {
+    "gender": {
+      "male": {
+        "Welcome": "Bem-vindo"
+      },
+      "female": {
+        "Welcome": "Bem-vinda"
+      }
+    }
+  }
+}

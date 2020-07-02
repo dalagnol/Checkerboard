@@ -1,0 +1,10 @@
+{
+  "light": {
+    "bottomGradient": "red",
+    "upperGradient": "#FFC730"
+  },
+  "dark": {
+    "bottomGradient": "#D11610",
+    "upperGradient": "#F4BF3A"
+  }
+}
