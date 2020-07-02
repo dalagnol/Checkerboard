@@ -9,8 +9,19 @@ export type IUpdateErrors = {
   password: boolean;
 };
 
+export type IUserType = 0 | 1;
+
+export type ICreateUserData = {
+  type?: IUserType;
+  name: string;
+  email: string;
+  gender: string;
+  password: string;
+};
+
 export interface IUser {
   id: number;
+  type: IUserType;
   name: string;
   email: string;
   gender: string;
@@ -25,4 +36,7 @@ export type IUserContext = {
   update: (user: IUser) => boolean;
   updateErrors: IUpdateErrors;
   logout: () => void;
+  create: (data: ICreateUserData) => boolean;
+  delete: (id: number) => void;
+  changeType: (id: number, type: number) => void;
 };

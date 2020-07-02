@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { UserContext } from "./context";
-import { IUser, IAuthenticateErrors, IUpdateErrors } from "interfaces/user";
+import {
+  IUser,
+  IAuthenticateErrors,
+  IUpdateErrors,
+  IUserType,
+  ICreateUserData
+} from "interfaces/user";
 import { save, load } from "helpers";
 
 const LS_USER_KEY = "user";
@@ -11,6 +17,7 @@ interface Props {
 }
 interface User {
   id: number;
+  type: IUserType;
   name: string;
   email: string;
   gender: string;
@@ -37,6 +44,7 @@ export function User({ children }: Props) {
         {
           id: 0,
           name: "root",
+          type: 0,
           email: "root@icloud.com",
           gender: "Male",
           password: "123test"
@@ -45,7 +53,7 @@ export function User({ children }: Props) {
       save(LS_DATABASE_KEY, users);
       setDatabase(users);
     }
-    if (load(LS_USER_KEY) !instanceof User) {
+    if (load(LS_USER_KEY)! instanceof User) {
       setUser(null);
     } else {
       setUser(load(LS_USER_KEY));
@@ -153,6 +161,10 @@ export function User({ children }: Props) {
     [setUser, setUpdateErrors, updateDB, updateErrors]
   );
 
+  const create = useCallback((data: ICreateUserData) => {
+    
+  }, []);
+
   useEffect(() => {
     save(LS_USER_KEY, user);
   }, [user]);
@@ -161,7 +173,7 @@ export function User({ children }: Props) {
     if (Object.values(updateErrors).some(value => value === true)) {
       clearUpdateErrors();
     }
-  }, [updateErrors])
+  }, [updateErrors]);
 
   return (
     <UserContext.Provider
