@@ -38,12 +38,9 @@ export type IUserContext = {
   user: IUser | null;
   users: Array<IUser>;
   authenticate: (credential: string, password: string) => void;
-  authErrors: IAuthenticateErrors;
   update: (user: IUser) => boolean;
-  updateErrors: IUpdateErrors;
   logout: () => void;
   create: (data: ICreateUserData) => boolean;
-  createErrors: ICreateErrors;
   remove: (id: number) => void;
   changeType: (id: number, type: IUserType) => void;
 };

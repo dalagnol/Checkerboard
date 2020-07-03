@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { UserContext } from "./context";
-import {
-  IUser,
-  IAuthenticateErrors,
-  IUpdateErrors,
-  IUserType,
-  ICreateUserData
-} from "interfaces/user";
+import { IUser, IUserType, ICreateUserData } from "interfaces/user";
 import { save, load, findAvailableId, checkLS } from "helpers";
 
 const LS_USER_KEY = "user";
@@ -25,22 +19,8 @@ interface User {
 }
 
 export function User({ children }: Props) {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser | null>(load(LS_USER_KEY));
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
-  const [authErrors, setAuthErrors] = useState<IAuthenticateErrors>({
-    credential: false,
-    password: false
-  });
-  const [updateErrors, setUpdateErrors] = useState<IUpdateErrors>({
-    name: false,
-    email: false,
-    password: false
-  });
-  const [createErrors, setCreateErrors] = useState<IUpdateErrors>({
-    name: false,
-    email: false,
-    password: false
-  });
 
   useEffect(() => {
     checkLS(["theme", "user"], {
@@ -71,16 +51,6 @@ export function User({ children }: Props) {
     // eslint-disable-next-line
   }, []);
 
-  const clearErrors = (type: Function) => {
-    setTimeout(() => {
-      type({
-        name: false,
-        email: false,
-        password: false
-      });
-    }, 2000);
-  };
-
   const matching = useCallback(
     (credential: string) => {
       return (
@@ -97,30 +67,16 @@ export function User({ children }: Props) {
 
       if (match && match.password === password) {
         setUser(match);
-        setAuthErrors({
-          credential: false,
-          password: false
-        });
         save(LS_USER_KEY, match);
       } else {
-        match
-          ? setAuthErrors({
-              credential: false,
-              password: true
-            })
-          : setAuthErrors({
-              credential: true,
-              password: false
-            });
-        setTimeout(() => {
-          setAuthErrors({
-            credential: false,
-            password: false
-          });
-        }, 1000);
+        if (match) {
+          throw new Error("Wrong password");
+        } else {
+          throw new Error("User does not exist");
+        }
       }
     },
-    [matching, setAuthErrors, setUser]
+    [matching, setUser]
   );
 
   const logout = useCallback(() => {
@@ -154,26 +110,16 @@ export function User({ children }: Props) {
             updateDB(user, false);
             return true;
           } else {
-            setUpdateErrors({
-              ...updateErrors,
-              password: true
-            });
+            throw new Error("Password must have more than 6 character");
           }
         } else {
-          setUpdateErrors({
-            ...updateErrors,
-            email: true
-          });
+          throw new Error("Invalid email");
         }
       } else {
-        setUpdateErrors({
-          ...updateErrors,
-          name: true
-        });
+        throw new Error("You must insert a name");
       }
-      return false;
     },
-    [setUser, setUpdateErrors, updateDB, updateErrors]
+    [setUser, updateDB]
   );
 
   const create = useCallback(
@@ -193,27 +139,16 @@ export function User({ children }: Props) {
             );
             return true;
           } else {
-            setCreateErrors({
-              ...createErrors,
-              password: true
-            });
+            throw new Error("Password must have more than 6 character");
           }
         } else {
-          setCreateErrors({
-            ...createErrors,
-            email: true
-          });
+          throw new Error("Invalid email");
         }
       } else {
-        setCreateErrors({
-          ...createErrors,
-          name: true
-        });
+        throw new Error("You must insert a name");
       }
-
-      return false;
     },
-    [createErrors, database, updateDB]
+    [database, updateDB]
   );
 
   const remove = useCallback(
@@ -240,27 +175,15 @@ export function User({ children }: Props) {
     save(LS_USER_KEY, user);
   }, [user]);
 
-  useEffect(() => {
-    if (Object.values(updateErrors).some(value => value === true)) {
-      clearErrors(setUpdateErrors);
-    }
-    if (Object.values(createErrors).some(value => value === true)) {
-      clearErrors(setCreateErrors);
-    }
-  }, [updateErrors, createErrors]);
-
   return (
     <UserContext.Provider
       value={{
         user,
         users: database,
         authenticate,
-        authErrors,
         update,
-        updateErrors,
         logout,
         create,
-        createErrors,
         remove,
         changeType
       }}
