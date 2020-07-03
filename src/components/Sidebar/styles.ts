@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Sun, Moon, Globe, Home, User, LogOut } from "@styled-icons/feather";
+import { ChessBoard } from "@styled-icons/fa-solid/ChessBoard";
 
 interface Props {
   selected: boolean;
@@ -66,6 +67,17 @@ export const Language = styled(Globe)`
 `;
 
 export const Main = styled(Home)<Props>`
+  cursor: pointer;
+
+  width: 40px;
+  height: 40px;
+
+  margin: 10px;
+
+  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+`;
+
+export const Checkerboard = styled(ChessBoard)<Props>`
   cursor: pointer;
 
   width: 40px;

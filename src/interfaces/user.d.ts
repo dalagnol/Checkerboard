@@ -9,8 +9,25 @@ export type IUpdateErrors = {
   password: boolean;
 };
 
+export type ICreateErrors = {
+  name: boolean;
+  email: boolean;
+  password: boolean;
+};
+
+export type IUserType = 0 | 1;
+
+export type ICreateUserData = {
+  type?: IUserType;
+  name: string;
+  email: string;
+  gender: string;
+  password: string;
+};
+
 export interface IUser {
   id: number;
+  type: IUserType;
   name: string;
   email: string;
   gender: string;
@@ -21,8 +38,9 @@ export type IUserContext = {
   user: IUser | null;
   users: Array<IUser>;
   authenticate: (credential: string, password: string) => void;
-  authErrors: IAuthenticateErrors;
   update: (user: IUser) => boolean;
-  updateErrors: IUpdateErrors;
   logout: () => void;
+  create: (data: ICreateUserData) => boolean;
+  remove: (id: number) => void;
+  changeType: (id: number, type: IUserType) => void;
 };

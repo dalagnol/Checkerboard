@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { CheckerContext } from "controllers";
+import { useTheme } from "theme";
+import { themejson } from "./json";
 
 import { Tile as Element } from "./styles";
 
@@ -9,6 +11,7 @@ interface Props {
 }
 export function Tile({ row, column }: Props) {
   const { grid, toggle } = useContext(CheckerContext);
+  useTheme("Tile", themejson);
 
   return (
     <Element
