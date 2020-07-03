@@ -7,7 +7,7 @@ import {
   IUserType,
   ICreateUserData
 } from "interfaces/user";
-import { save, load, findAvailableId } from "helpers";
+import { save, load, findAvailableId, checkLS } from "helpers";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -43,8 +43,18 @@ export function User({ children }: Props) {
   });
 
   useEffect(() => {
+    checkLS(["theme", "user"], {
+      theme: ["light", "dark"],
+      user: {
+        id: 0,
+        name: "",
+        type: 0,
+        email: "",
+        gender: "",
+        password: ""
+      }
+    });
     if (!database) {
-      localStorage.clear();
       const users = [
         {
           id: 0,
@@ -57,11 +67,6 @@ export function User({ children }: Props) {
       ];
       save(LS_DATABASE_KEY, users);
       setDatabase(users);
-    }
-    if (load(LS_USER_KEY)! instanceof IUser) {
-      setUser(null);
-    } else {
-      setUser(load(LS_USER_KEY));
     }
     // eslint-disable-next-line
   }, []);
@@ -211,9 +216,25 @@ export function User({ children }: Props) {
     [createErrors, database, updateDB]
   );
 
-  const remove = useCallback(() => {}, []);
+  const remove = useCallback(
+    (id: number) => {
+      const res = database.filter(user => user.id !== id);
+      setDatabase(res);
+      save(LS_DATABASE_KEY, res);
+    },
+    [database, setDatabase]
+  );
 
-  const changeType = useCallback(() => {}, []);
+  const changeType = useCallback(
+    (id: number, type: IUserType) => {
+      const res = database.map(user =>
+        user.id === id ? { ...user, type: type } : user
+      );
+      setDatabase(res);
+      save(LS_DATABASE_KEY, res);
+    },
+    [database, setDatabase]
+  );
 
   useEffect(() => {
     save(LS_USER_KEY, user);
@@ -240,7 +261,7 @@ export function User({ children }: Props) {
         logout,
         create,
         createErrors,
-        remove, 
+        remove,
         changeType
       }}
     >

@@ -45,5 +45,5 @@ export type IUserContext = {
   create: (data: ICreateUserData) => boolean;
   createErrors: ICreateErrors;
   remove: (id: number) => void;
-  changeType: (id: number, type: number) => void;
+  changeType: (id: number, type: IUserType) => void;
 };

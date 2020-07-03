@@ -1,6 +1,11 @@
 import { createContext } from "react";
 
-import { IUserContext, IUser, ICreateUserData } from "interfaces/user";
+import {
+  IUserContext,
+  IUser,
+  ICreateUserData,
+  IUserType
+} from "interfaces/user";
 
 export const User = createContext<IUserContext>({
   user: null,
@@ -28,5 +33,5 @@ export const User = createContext<IUserContext>({
     password: false
   },
   remove(id: number) {},
-  changeType(id: number, type: number) {}
+  changeType(id: number, type: IUserType) {}
 });
