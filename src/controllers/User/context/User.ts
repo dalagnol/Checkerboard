@@ -20,8 +20,13 @@ export const User = createContext<IUserContext>({
   },
   logout() {},
   create(data: ICreateUserData) {
-    false;
+    return false;
   },
-  delete(id: number) {},
+  createErrors: {
+    name: false,
+    email: false,
+    password: false
+  },
+  remove(id: number) {},
   changeType(id: number, type: number) {}
 });

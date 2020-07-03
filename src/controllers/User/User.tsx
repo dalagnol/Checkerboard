@@ -7,7 +7,7 @@ import {
   IUserType,
   ICreateUserData
 } from "interfaces/user";
-import { save, load } from "helpers";
+import { save, load, findAvailableId } from "helpers";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -36,6 +36,11 @@ export function User({ children }: Props) {
     email: false,
     password: false
   });
+  const [createErrors, setCreateErrors] = useState<IUpdateErrors>({
+    name: false,
+    email: false,
+    password: false
+  });
 
   useEffect(() => {
     if (!database) {
@@ -53,7 +58,7 @@ export function User({ children }: Props) {
       save(LS_DATABASE_KEY, users);
       setDatabase(users);
     }
-    if (load(LS_USER_KEY)! instanceof User) {
+    if (load(LS_USER_KEY)! instanceof IUser) {
       setUser(null);
     } else {
       setUser(load(LS_USER_KEY));
@@ -61,9 +66,9 @@ export function User({ children }: Props) {
     // eslint-disable-next-line
   }, []);
 
-  const clearUpdateErrors = () => {
+  const clearErrors = (type: Function) => {
     setTimeout(() => {
-      setUpdateErrors({
+      type({
         name: false,
         email: false,
         password: false
@@ -118,12 +123,17 @@ export function User({ children }: Props) {
   }, [setUser]);
 
   const updateDB = useCallback(
-    (newUser: IUser) => {
-      const res = database.map(user =>
-        user.id === newUser.id ? newUser : user
-      );
-      setDatabase(res);
-      save(LS_DATABASE_KEY, res);
+    (newUser: IUser, add: boolean) => {
+      if (add) {
+        database.push(newUser);
+        save(LS_DATABASE_KEY, database);
+      } else {
+        const res = database.map(user =>
+          user.id === newUser.id ? newUser : user
+        );
+        setDatabase(res);
+        save(LS_DATABASE_KEY, res);
+      }
     },
     [database, setDatabase]
   );
@@ -136,7 +146,7 @@ export function User({ children }: Props) {
         if (email && email.includes("@")) {
           if (password && password.length > 6) {
             setUser(user);
-            updateDB(user);
+            updateDB(user, false);
             return true;
           } else {
             setUpdateErrors({
@@ -161,9 +171,49 @@ export function User({ children }: Props) {
     [setUser, setUpdateErrors, updateDB, updateErrors]
   );
 
-  const create = useCallback((data: ICreateUserData) => {
-    
-  }, []);
+  const create = useCallback(
+    (data: ICreateUserData) => {
+      const { name, email, password, type } = data;
+
+      if (name) {
+        if (email && email.includes("@")) {
+          if (password && password.length > 6) {
+            updateDB(
+              {
+                ...data,
+                id: findAvailableId(database),
+                type: type || 1
+              },
+              true
+            );
+            return true;
+          } else {
+            setCreateErrors({
+              ...createErrors,
+              password: true
+            });
+          }
+        } else {
+          setCreateErrors({
+            ...createErrors,
+            email: true
+          });
+        }
+      } else {
+        setCreateErrors({
+          ...createErrors,
+          name: true
+        });
+      }
+
+      return false;
+    },
+    [createErrors, database, updateDB]
+  );
+
+  const remove = useCallback(() => {}, []);
+
+  const changeType = useCallback(() => {}, []);
 
   useEffect(() => {
     save(LS_USER_KEY, user);
@@ -171,9 +221,12 @@ export function User({ children }: Props) {
 
   useEffect(() => {
     if (Object.values(updateErrors).some(value => value === true)) {
-      clearUpdateErrors();
+      clearErrors(setUpdateErrors);
     }
-  }, [updateErrors]);
+    if (Object.values(createErrors).some(value => value === true)) {
+      clearErrors(setCreateErrors);
+    }
+  }, [updateErrors, createErrors]);
 
   return (
     <UserContext.Provider
@@ -183,8 +236,12 @@ export function User({ children }: Props) {
         authenticate,
         authErrors,
         update,
+        updateErrors,
         logout,
-        updateErrors
+        create,
+        createErrors,
+        remove, 
+        changeType
       }}
     >
       {children}
