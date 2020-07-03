@@ -2,9 +2,7 @@ export function checkLS(keys: Array<string>, values: any) {
   const LSKeys = Object.keys(localStorage);
   const LSValues = Object.values(localStorage);
 
-  debugger;
   LSKeys.forEach((key, i) => {
-    console.log(JSON.parse(LSValues[i]));
     if (key === "users") {
       if (
         JSON.stringify(Object.keys(values.user)) !==
