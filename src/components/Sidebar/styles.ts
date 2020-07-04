@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import { Sun, Moon, Globe, Home, User, LogOut } from "@styled-icons/feather";
+import {
+  Sun,
+  Moon,
+  Globe,
+  Home,
+  User,
+  LogOut,
+  Users
+} from "@styled-icons/feather";
 import { ChessBoard } from "@styled-icons/fa-solid/ChessBoard";
 
 interface Props {
@@ -89,6 +97,17 @@ export const Checkerboard = styled(ChessBoard)<Props>`
 `;
 
 export const Profile = styled(User)<Props>`
+  cursor: pointer;
+
+  width: 40px;
+  height: 40px;
+
+  margin: 10px;
+
+  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+`;
+
+export const UsersManagement = styled(Users)<Props>`
   cursor: pointer;
 
   width: 40px;

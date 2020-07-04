@@ -6,3 +6,4 @@ export const signup = (): string => "/signup";
 export const landing = (): string => "/";
 export const profile = (): string => "/profile";
 export const checkerboard = (): string => "/checkerboard";
+export const users = (): string => "/users";

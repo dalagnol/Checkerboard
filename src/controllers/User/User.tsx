@@ -136,12 +136,19 @@ export function User({ children }: Props) {
         throw new Error("Max number of users reached");
       } else {
         if (name) {
-          if (email && email.includes("@")) {
-            try {
-              checkIfUserExists(database, email);
-            } catch ({ message }) {
-              throw new Error("Invalid email");
+          try {
+            checkIfUserExists(database, name, email);
+          } catch ({ message }) {
+            switch (message) {
+              case "Name is already being used":
+                throw new Error("Name is already being used");
+              case "Email is already being used":
+                throw new Error("Email is already being used");
+              default:
+                throw new Error("Name is already being used");
             }
+          }
+          if (email && email.includes("@")) {
             if (password && password.length > 6) {
               updateDB(
                 {

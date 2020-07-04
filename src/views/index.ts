@@ -1,2 +1,2 @@
 export { SignIn, SignUp } from "./Public";
-export { Landing, Profile, Checkerboard } from "./Private";
+export { Landing, Profile, Checkerboard, Users } from "./Private";
