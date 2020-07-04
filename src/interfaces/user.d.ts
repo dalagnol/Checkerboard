@@ -13,6 +13,7 @@ export type ICreateErrors = {
   name: boolean;
   email: boolean;
   password: boolean;
+  maxUsers: boolean;
 };
 
 export type IUserType = 0 | 1;

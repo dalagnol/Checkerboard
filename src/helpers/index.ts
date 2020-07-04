@@ -5,3 +5,4 @@ export { toBinary } from "./toBinary";
 export { toGrid } from "./toGrid";
 export { findAvailableId } from "./findAvailableId";
 export { checkLS } from "./checkLS";
+export { checkIfUserExists } from "./checkIfUserExists";

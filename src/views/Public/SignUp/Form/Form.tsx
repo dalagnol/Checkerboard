@@ -7,7 +7,14 @@ import { signin } from "routes/paths";
 
 import { ICreateErrors, ICreateUserData } from "interfaces/user";
 
-import { Form as Element, Label, Success, Radios, Link } from "./styles";
+import {
+  Form as Element,
+  Label,
+  Success,
+  Radios,
+  Link,
+  ModalText
+} from "./styles";
 import { Input, Button, Radio } from "components";
 
 export function Form() {
@@ -24,7 +31,8 @@ export function Form() {
   const [errors, setErrors] = useState<ICreateErrors>({
     name: false,
     email: false,
-    password: false
+    password: false,
+    maxUsers: false
   });
 
   const { push } = useHistory();
@@ -42,9 +50,9 @@ export function Form() {
   );
 
   useEffect(() => {
-    if (Object.values(errors).some(value => value === true)) {
+    if (Object.values(errors).some((value, i) => value === true && i < 3)) {
       setTimeout(() => {
-        setErrors({ name: false, email: false, password: false });
+        setErrors({ ...errors, name: false, email: false, password: false });
       }, 1000);
     }
   }, [errors, setErrors]);
@@ -64,6 +72,12 @@ export function Form() {
     try {
       const response = create(data);
       feedback(response);
+      setData({
+        name: "",
+        email: "",
+        gender: "",
+        password: ""
+      });
     } catch ({ message }) {
       switch (message) {
         case "Password must have more than 6 character":
@@ -75,6 +89,15 @@ export function Form() {
         case "You must insert a name":
           setErrors({ ...errors, name: true });
           break;
+        case "Max number of users reached":
+          setErrors({ ...errors, maxUsers: true });
+          setData({
+            name: "",
+            email: "",
+            gender: "",
+            password: ""
+          });
+          break;
         default:
           setErrors(errors);
       }
@@ -82,52 +105,80 @@ export function Form() {
   };
 
   return (
-    <Element onSubmit={(e: any) => e.preventDefault()}>
-      <Label error={errors.name}>
-        <Text>Name</Text>
-      </Label>
-      <Input type={"text"} name={"name"} onChange={onChangeHandler} />
-      <Label error={errors.email}>
-        <Text>Email</Text>
-      </Label>
-      <Input type={"text"} name={"email"} onChange={onChangeHandler} />
-      <Label>
-        <Text>Gender</Text>
-      </Label>
-      <Radios>
-        <div>
-          <Radio
-            name={"gender"}
-            value={"Male"}
-            defaultChecked={true}
+    <Element onSubmit={(e: any) => e.preventDefault()} modal={errors.maxUsers}>
+      {errors.maxUsers ? (
+        <>
+          <ModalText>
+            <Text>Max number of users reached</Text>
+          </ModalText>
+          <Button onClick={() => setErrors({ ...errors, maxUsers: false })}>
+            Okay
+          </Button>
+        </>
+      ) : (
+        <>
+          <Label error={errors.name}>
+            <Text>Name</Text>
+          </Label>
+          <Input
+            type={"text"}
+            name={"name"}
+            value={data.name}
+            onChange={onChangeHandler}
+          />
+          <Label error={errors.email}>
+            <Text>Email</Text>
+          </Label>
+          <Input
+            type={"text"}
+            name={"email"}
+            value={data.email}
             onChange={onChangeHandler}
           />
           <Label>
-            <Text>Male</Text>
+            <Text>Gender</Text>
           </Label>
-        </div>
-        <div>
-          <Radio
-            name={"gender"}
-            value={"Female"}
-            defaultChecked={false}
+          <Radios>
+            <div>
+              <Radio
+                name={"gender"}
+                value={"Male"}
+                defaultChecked={true}
+                onChange={onChangeHandler}
+              />
+              <Label>
+                <Text>Male</Text>
+              </Label>
+            </div>
+            <div>
+              <Radio
+                name={"gender"}
+                value={"Female"}
+                defaultChecked={false}
+                onChange={onChangeHandler}
+              />
+              <Label>
+                <Text>Female</Text>
+              </Label>
+            </div>
+          </Radios>
+          <Label error={errors.password}>
+            <Text>Password</Text>
+          </Label>
+          <Input
+            type={"password"}
+            name={"password"}
+            value={data.password}
             onChange={onChangeHandler}
           />
-          <Label>
-            <Text>Female</Text>
-          </Label>
-        </div>
-      </Radios>
-      <Label error={errors.password}>
-        <Text>Password</Text>
-      </Label>
-      <Input type={"password"} name={"password"} onChange={onChangeHandler} />
-      <Button onClick={signUpUser}>
-        {check ? <Success /> : <Text>Sign Up</Text>}
-      </Button>
-      <Link onClick={() => push(signin())}>
-        <Text>Sign In</Text>
-      </Link>
+          <Button onClick={signUpUser}>
+            {check ? <Success /> : <Text>Sign Up</Text>}
+          </Button>
+          <Link onClick={() => push(signin())}>
+            <Text>Sign In</Text>
+          </Link>
+        </>
+      )}
     </Element>
   );
 }

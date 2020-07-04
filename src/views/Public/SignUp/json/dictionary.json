@@ -5,7 +5,8 @@
     "Gender": "Gender",
     "Password": "Password",
     "Sign up": "Sign up",
-    "Sign in": "Sign in"
+    "Sign in": "Sign in",
+    "Max number of users reached": "Max number of users reached"
   },
   "pt": {
     "Name": "Nome",
@@ -13,6 +14,7 @@
     "Gender": "Sexo",
     "Password": "Senha",
     "Sign up": "Cadastrar",
-    "Sign in": "Entrar"
+    "Sign in": "Entrar",
+    "Max number of users reached": "Número máximo de usuários foi atingido"
   }
 }

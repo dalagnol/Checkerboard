@@ -35,7 +35,7 @@ export const Label = styled.label<Props>`
   `}
 `;
 
-export const Link = styled.p`
+export const Link = styled.h1`
   cursor: pointer;
 
   font-family: Montserrat Light;

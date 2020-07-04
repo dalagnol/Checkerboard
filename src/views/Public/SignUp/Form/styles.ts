@@ -3,9 +3,10 @@ import { Check } from "@styled-icons/feather/Check";
 
 interface Props {
   error?: boolean;
+  modal?: boolean;
 }
 
-export const Form = styled.form`
+export const Form = styled.form<Props>`
     width: 290px;
     height: 520px;
 
@@ -24,6 +25,13 @@ export const Form = styled.form`
     @media only screen and (max-width: 600px) {
       margin-top: 70px;
     }
+
+    ${({ modal }) =>
+      modal &&
+      `
+      width: 300px;
+      height: 300px;
+    `}
 `;
 
 export const Label = styled.label<Props>`
@@ -61,7 +69,7 @@ export const Radios = styled.div`
   }
 `;
 
-export const Link = styled.p`
+export const Link = styled.h1`
   cursor: pointer;
 
   font-family: Montserrat Light;
@@ -72,4 +80,24 @@ export const Link = styled.p`
   text-decoration: underline;
 
   margin: 5px;
+`;
+
+export const Modal = styled.div`
+  z-index: 10000000000;
+
+  width: 70%;
+  height: 50%;
+
+  background-color ${({ theme }) => theme.signup?.backgroundColor};
+
+  box-shadow: 0 0 10px #00000044;
+`;
+
+export const ModalText = styled.h1`
+  color ${({ theme }) => theme.signup?.color};
+
+  font-size: 1.1em;
+  font-family: Montserrat;
+
+  text-align: center;
 `;
