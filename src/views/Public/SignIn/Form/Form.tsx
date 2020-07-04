@@ -3,8 +3,10 @@ import { UserContext } from "controllers";
 import { useLocale } from "locale";
 import { dictionary } from "../json";
 import { IAuthenticateErrors } from "interfaces/user";
+import { useHistory } from "react-router-dom";
+import { signup } from "routes/paths";
 
-import { Form as Element, Label } from "./styles";
+import { Form as Element, Label, Link } from "./styles";
 import { Input, Button } from "components";
 
 export function Form() {
@@ -19,6 +21,8 @@ export function Form() {
 
   const { authenticate } = useContext(UserContext);
   const { Text } = useLocale("Login", dictionary);
+
+  const { push } = useHistory();
 
   const onChangeHandler = (e: any) => {
     const {
@@ -67,8 +71,11 @@ export function Form() {
       </Label>
       <Input type={"password"} name={"password"} onChange={onChangeHandler} />
       <Button onClick={authentication}>
-        <Text>Login</Text>
+        <Text>Sign in</Text>
       </Button>
+      <Link onClick={() => push(signup())}>
+        <Text>Sign up</Text>
+      </Link>
     </Element>
   );
 }

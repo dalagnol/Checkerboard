@@ -8,7 +8,7 @@ export const Form = styled.form`
     width: 290px;
     height: 370px;
 
-    background-color ${({ theme }) => theme.login?.backgroundColor};
+    background-color ${({ theme }) => theme.signin?.backgroundColor};
 
     border-radius: 20px;
 
@@ -25,7 +25,7 @@ export const Label = styled.label<Props>`
   font-size: 1.1em;
   font-family: Montserrat;
   
-  color ${({ theme }) => theme.login?.color};
+  color ${({ theme }) => theme.signin?.color};
 
   width: 100%;
 
@@ -33,4 +33,17 @@ export const Label = styled.label<Props>`
     error &&
     `  animation: 0.9s shake;
   `}
+`;
+
+export const Link = styled.h1`
+  cursor: pointer;
+
+  font-family: Montserrat Light;
+  font-size: 1.1em;
+
+  color: ${({ theme }) => theme.signin?.link};
+
+  text-decoration: underline;
+
+  margin: 5px;
 `;

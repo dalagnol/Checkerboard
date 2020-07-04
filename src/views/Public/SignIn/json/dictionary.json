@@ -2,11 +2,13 @@
   "en": {
     "Credential": "Credential",
     "Password": "Password",
-    "Login": "Login"
+    "Sign in": "Sign in",
+    "Sign up": "Sign up"
   },
   "pt": {
     "Credential": "Credencial",
     "Password": "Senha",
-    "Login": "Entrar"
+    "Sign in": "Entrar",
+    "Sign up": "Cadastrar"
   }
 }

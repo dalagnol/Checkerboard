@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { UserContext } from "./context";
 import { IUser, IUserType, ICreateUserData } from "interfaces/user";
-import { save, load, findAvailableId, checkLS } from "helpers";
+import {
+  save,
+  load,
+  findAvailableId,
+  checkLS,
+  checkIfUserExists
+} from "helpers";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -28,10 +34,10 @@ export function User({ children }: Props) {
       user: {
         id: 0,
         name: "",
-        type: 0,
         email: "",
         gender: "",
-        password: ""
+        password: "",
+        type: 0
       }
     });
     if (!database) {
@@ -39,10 +45,10 @@ export function User({ children }: Props) {
         {
           id: 0,
           name: "root",
-          type: 0,
           email: "root@icloud.com",
           gender: "Male",
-          password: "123test"
+          password: "123test",
+          type: 0
         }
       ];
       save(LS_DATABASE_KEY, users);
@@ -126,26 +132,35 @@ export function User({ children }: Props) {
     (data: ICreateUserData) => {
       const { name, email, password, type } = data;
 
-      if (name) {
-        if (email && email.includes("@")) {
-          if (password && password.length > 6) {
-            updateDB(
-              {
-                ...data,
-                id: findAvailableId(database),
-                type: type || 1
-              },
-              true
-            );
-            return true;
+      if (database.length === 10) {
+        throw new Error("Max number of users reached");
+      } else {
+        if (name) {
+          if (email && email.includes("@")) {
+            try {
+              checkIfUserExists(database, email);
+            } catch ({ message }) {
+              throw new Error("Invalid email");
+            }
+            if (password && password.length > 6) {
+              updateDB(
+                {
+                  id: findAvailableId(database),
+                  ...data,
+                  type: type || 1
+                },
+                true
+              );
+              return true;
+            } else {
+              throw new Error("Password must have more than 6 character");
+            }
           } else {
-            throw new Error("Password must have more than 6 character");
+            throw new Error("Invalid email");
           }
         } else {
-          throw new Error("Invalid email");
+          throw new Error("You must insert a name");
         }
-      } else {
-        throw new Error("You must insert a name");
       }
     },
     [database, updateDB]
