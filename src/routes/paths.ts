@@ -1,5 +1,6 @@
 // Public
-export const login = (): string => "/";
+export const signin = (): string => "/";
+export const signup = (): string => "/signup";
 
 // Private
 export const landing = (): string => "/";

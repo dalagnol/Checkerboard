@@ -6,8 +6,8 @@ export const Container = styled.main`
 
   background-image: linear-gradient(
     to top right,
-    ${({ theme }) => theme.login?.bottomGradient},
-    ${({ theme }) => theme.login?.upperGradient}
+    ${({ theme }) => theme.signup?.bottomGradient},
+    ${({ theme }) => theme.signup?.upperGradient}
   );
 
   display: flex;

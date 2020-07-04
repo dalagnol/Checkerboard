@@ -1,0 +1,18 @@
+{
+  "en": {
+    "Name": "Name",
+    "Email": "Email",
+    "Gender": "Gender",
+    "Password": "Password",
+    "Sign up": "Sign up",
+    "Sign in": "Sign in"
+  },
+  "pt": {
+    "Name": "Nome",
+    "Email": "E-mail",
+    "Gender": "Sexo",
+    "Password": "Senha",
+    "Sign up": "Cadastrar",
+    "Sign in": "Entrar"
+  }
+}

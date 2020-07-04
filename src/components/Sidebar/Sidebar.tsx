@@ -40,10 +40,16 @@ export function Sidebar() {
         <Language onClick={() => set(oppositeLang)} />
         {user && (
           <>
-            <Main onClick={() => push("/")} selected={pathname === landing()} />
-            <Checkerboard onClick={() => push("/checkerboard")} selected={pathname === checkerboard()} />
+            <Main
+              onClick={() => push(landing())}
+              selected={pathname === landing()}
+            />
+            <Checkerboard
+              onClick={() => push(checkerboard())}
+              selected={pathname === checkerboard()}
+            />
             <Profile
-              onClick={() => push("/profile")}
+              onClick={() => push(profile())}
               selected={pathname === profile()}
             />
             <Logout onClick={() => logout()} />

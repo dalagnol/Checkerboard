@@ -1,0 +1,16 @@
+{
+  "light": {
+    "backgroundColor": "white",
+    "color": "black",
+    "bottomGradient": "red",
+    "upperGradient": "#FFC730",
+    "link": "#FF5733"
+  },
+  "dark": {
+    "backgroundColor": "black",
+    "color": "white",
+    "bottomGradient": "#D11610",
+    "upperGradient": "#F4BF3A",
+    "link": "#E2640D"
+  }
+}

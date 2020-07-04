@@ -129,6 +129,7 @@ export function User({ children }: Props) {
       if (name) {
         if (email && email.includes("@")) {
           if (password && password.length > 6) {
+            console.log(findAvailableId(database))
             updateDB(
               {
                 ...data,

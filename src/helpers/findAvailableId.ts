@@ -5,8 +5,9 @@ export function findAvailableId(db: Array<IUser>) {
   ids.sort();
 
   let min = 0;
-  while (ids[min]) {
-    min++;
+
+  while ((ids[min] || ids[min] === 0) && ids[min] === min) {
+    min = min + 1;
   }
 
   return min;
