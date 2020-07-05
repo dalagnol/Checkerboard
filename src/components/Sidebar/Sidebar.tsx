@@ -50,8 +50,8 @@ export function Sidebar() {
               selected={pathname === checkerboard()}
             />
             <Profile
-              onClick={() => push(profile())}
-              selected={pathname === profile()}
+              onClick={() => push(profile(user?.id))}
+              selected={pathname.includes("/user/")}
             />
             {user?.type === 0 && (
               <UsersManagement

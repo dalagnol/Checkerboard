@@ -1,8 +1,9 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { useTheme } from "theme";
 import { themejson } from "./json";
 import { UserContext } from "controllers";
-import { IUserType } from "interfaces/user";
+import { useHistory } from "react-router-dom";
+import { profile } from "routes/paths";
 
 import {
   Container,
@@ -12,28 +13,21 @@ import {
   UserTile,
   Header,
   Subheader,
-  Delete,
-  Radios,
-  Label
+  Delete
 } from "./styles";
-import { Radio, Button } from "components";
 
 export function Users() {
-  const [selectedUser, setSelectedUser] = useState<IData | null>(null);
-  const { user, users, remove, changeType } = useContext(UserContext);
+  const { user, users, remove } = useContext(UserContext);
   useTheme("Users", themejson);
+
+  const { push } = useHistory();
 
   const usersList = useMemo(
     () =>
       users.map(
         x =>
           x.id !== user?.id && (
-            <UserTile
-              onClick={() =>
-                setSelectedUser({ id: x.id, name: x.name, email: x.email, type: x.type })
-              }
-              key={x.id}
-            >
+            <UserTile onClick={() => push(profile(x.id))} key={x.id}>
               <div>
                 <Header>{x.name}</Header>
                 <Subheader>{x.type ? "Common" : "Administrator"}</Subheader>
@@ -42,42 +36,15 @@ export function Users() {
             </UserTile>
           )
       ),
-    [users, user, remove]
+    [users, user, remove, push]
   );
 
   return (
     <Container>
       <Main>
-        <Title>{selectedUser ? selectedUser.name : "User Management"}</Title>
+        <Title>User Management</Title>
         <Element>
-          {selectedUser ? (
-            <>
-              <Header>{selectedUser.email}</Header>
-              <Radios>
-                <div>
-                  <Radio
-                    name={"type"}
-                    defaultChecked={!selectedUser?.type}
-                    onChange={() => setSelectedUser({...selectedUser, type: 0})}
-                  />
-                  <Label>
-                    Administrator
-                  </Label>
-                </div>
-                <div>
-                  <Radio
-                    name={"type"}
-                    defaultChecked={!!selectedUser?.type}
-                    onChange={() => setSelectedUser({...selectedUser, type: 1})}
-                  />
-                  <Label>
-                    Common
-                  </Label>
-                </div>
-              </Radios>
-              <Button onClick={() => changeType(selectedUser.id, selectedUser.type)}>Save</Button>
-            </>
-          ) : usersList.length === 1 && !usersList[0] ? (
+          {usersList.length === 1 && !usersList[0] ? (
             <Header>There are no users</Header>
           ) : (
             usersList
@@ -86,11 +53,4 @@ export function Users() {
       </Main>
     </Container>
   );
-}
-
-interface IData {
-  id: number;
-  name: string;
-  email: string;
-  type: IUserType;
 }

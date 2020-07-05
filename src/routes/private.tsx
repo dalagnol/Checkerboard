@@ -8,13 +8,19 @@ import { Landing, Profile, Checkerboard, Users } from "views";
 export default function() {
   return (
     <Switch>
-      <CheckerBoard>
-        <Route exact path={landing()} render={() => <Landing />} />
-        <Route exact path={profile()} render={() => <Profile />} />
-        <Route exact path={checkerboard()} render={() => <Checkerboard />} />
-        <Route exact path={users()} render={() => <Users />} />
-        <Redirect exact to={landing()} />
-      </CheckerBoard>
+      <Route path={profile()} render={() => <Profile />} />
+      <Route exact path={landing()} render={() => <Landing />} />
+      <Route
+        exact
+        path={checkerboard()}
+        render={() => (
+          <CheckerBoard>
+            <Checkerboard />
+          </CheckerBoard>
+        )}
+      />
+      <Route exact path={users()} render={() => <Users />} />
+      <Redirect exact to={landing()} />
     </Switch>
   );
 }
