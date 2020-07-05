@@ -18,17 +18,21 @@ export function Users() {
   const { user, users, remove } = useContext(UserContext);
   useTheme("Users", themejson);
 
-  const usersList = users.map(
-    x =>
-      x.id !== user?.id && (
-        <UserTile key={x.id}>
-          <div>
-            <Header>{x.name}</Header>
-            <Subheader>{x.type ? "Common" : "Administrator"}</Subheader>
-          </div>
-          <Delete onClick={() => remove(x.id)} />
-        </UserTile>
-      )
+  const usersList = useMemo(
+    () =>
+      users.map(
+        x =>
+          x.id !== user?.id && (
+            <UserTile key={x.id}>
+              <div>
+                <Header>{x.name}</Header>
+                <Subheader>{x.type ? "Common" : "Administrator"}</Subheader>
+              </div>
+              <Delete onClick={() => remove(x.id)} />
+            </UserTile>
+          )
+      ),
+    [users, user, remove]
   );
 
   return (
