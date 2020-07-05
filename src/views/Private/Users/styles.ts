@@ -22,10 +22,12 @@ export const Container = styled.main`
 export const Main = styled.main`
   overflow: hidden;
 
-  width: 400px;
+  width: 380px;
   height: 500px;
 
   border-radius: 20px;
+
+  padding: 15px;
 
   display: flex;
   flex-direction: column;

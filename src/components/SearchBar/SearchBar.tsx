@@ -1,5 +1,19 @@
 import React from "react";
 
-export default function SearchBar() {
-  return <div></div>;
+import { Container, SearchIcon } from "./styles";
+import { Input } from "components";
+
+export function SearchBar() {
+  return (
+    <Container>
+      <Input
+        type={"text"}
+        name={"user"}
+        onChange={() => {
+          console.log("hey");
+        }}
+      />
+      <SearchIcon />
+    </Container>
+  );
 }

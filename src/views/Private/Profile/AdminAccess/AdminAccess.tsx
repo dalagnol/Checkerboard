@@ -9,20 +9,22 @@ import { Main, Title, Subheader, Radios, Label } from "./styles";
 
 export function AdminAccess({ id }: Props) {
   const { Text } = useLocale("Profile", dictionary);
-  const { users, changeType } = useContext(UserContext);
+  const { user, users, changeType } = useContext(UserContext);
 
-  const [user, setUser] = useState<IUser>(users.find(user => user.id === id)!);
+  const [selectedUser, setSelectedUser] = useState<IUser>(
+    users.find(user => user.id === id)!
+  );
 
-  return (
+  return !user?.type ? (
     <Main>
-      <Title>{user.name}</Title>
-      <Subheader>{user.email}</Subheader>
+      <Title>{selectedUser.name}</Title>
+      <Subheader>{selectedUser.email}</Subheader>
       <Radios>
         <div>
           <Radio
             name={"type"}
-            defaultChecked={!user?.type}
-            onChange={() => setUser({ ...user, type: 0 })}
+            defaultChecked={!selectedUser?.type}
+            onChange={() => setSelectedUser({ ...selectedUser, type: 0 })}
           />
           <Label>
             <Text>Administrator</Text>
@@ -31,18 +33,20 @@ export function AdminAccess({ id }: Props) {
         <div>
           <Radio
             name={"type"}
-            defaultChecked={!!user?.type}
-            onChange={() => setUser({ ...user, type: 1 })}
+            defaultChecked={!!selectedUser?.type}
+            onChange={() => setSelectedUser({ ...selectedUser, type: 1 })}
           />
           <Label>
             <Text>Common</Text>
           </Label>
         </div>
       </Radios>
-      <Button onClick={() => changeType(user.id, user.type)}>
+      <Button onClick={() => changeType(selectedUser.id, selectedUser.type)}>
         <Text>Save</Text>
       </Button>
     </Main>
+  ) : (
+    <Title>Common users don't have access to this feature.</Title>
   );
 }
 

@@ -17,6 +17,7 @@ import {
   Subheader,
   Delete
 } from "./styles";
+import { SearchBar } from "components";
 
 export function Users() {
   const { user, users, remove } = useContext(UserContext);
@@ -52,6 +53,7 @@ export function Users() {
           <Title>
             <Text>User Management</Text>
           </Title>
+          <SearchBar />
           <Element>
             {usersList.length === 1 && !usersList[0] ? (
               <Header>
