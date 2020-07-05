@@ -3,12 +3,16 @@
     "backgroundColor": "white",
     "color": "black",
     "bottomGradient": "red",
-    "upperGradient": "#FFC730"
+    "upperGradient": "#FFC730",
+    "hover": "#dddddd",
+    "secondary": "#555555"
   },
   "dark": {
     "backgroundColor": "black",
     "color": "white",
     "bottomGradient": "#D11610",
-    "upperGradient": "#F4BF3A"
+    "upperGradient": "#F4BF3A",
+    "hover": "#555555",
+    "secondary": "#dddddd"
   }
 }
