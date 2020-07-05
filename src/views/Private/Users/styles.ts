@@ -76,6 +76,8 @@ export const UserTile = styled.div`
   div {
     display: flex;
     flex-direction: column;
+
+    width: 90%;
   }
 `;
 

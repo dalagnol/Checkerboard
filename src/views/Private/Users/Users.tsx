@@ -27,8 +27,8 @@ export function Users() {
       users.map(
         x =>
           x.id !== user?.id && (
-            <UserTile onClick={() => push(profile(x.id))} key={x.id}>
-              <div>
+            <UserTile key={x.id}>
+              <div onClick={() => push(profile(x.id))}>
                 <Header>{x.name}</Header>
                 <Subheader>{x.type ? "Common" : "Administrator"}</Subheader>
               </div>
