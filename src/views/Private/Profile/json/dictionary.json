@@ -6,7 +6,9 @@
     "Male": "Male",
     "Female": "Female",
     "Password": "Password",
-    "Save": "Save"
+    "Save": "Save",
+    "Common": "Common",
+    "Administrator": "Administrator"
   },
   "pt": {
     "Name": "Nome",
@@ -15,6 +17,8 @@
     "Male": "Masculino",
     "Female": "Feminino",
     "Password": "Senha",
-    "Save": "Salvar"
+    "Save": "Salvar",
+    "Common": "Comun",
+    "Administrator": "Administrador"
   }
 }

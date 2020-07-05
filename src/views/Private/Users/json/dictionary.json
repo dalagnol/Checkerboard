@@ -1,20 +1,16 @@
 {
   "en": {
-    "Name": "Name",
-    "Email": "Email",
-    "Gender": "Gender",
-    "Male": "Male",
-    "Female": "Female",
-    "Password": "Password",
-    "Save": "Save"
+    "Common users don't have access to this feature.": "Common users don't have access to this feature.",
+    "User Management": "User Management",
+    "There are no users": "There are no users",
+    "Common": "Common",
+    "Administrator": "Administrator"
   },
   "pt": {
-    "Name": "Nome",
-    "Email": "E-mail",
-    "Gender": "Sexo",
-    "Male": "Masculino",
-    "Female": "Feminino",
-    "Password": "Senha",
-    "Save": "Salvar"
+    "Common users don't have access to this feature.": "Usuários comuns não possuem acesso a esse recurso.",
+    "User Management": "Gerenciamento de Usuários",
+    "There are no users": "Não há usuários",
+    "Common": "Comun",
+    "Administrator": "Administrador"
   }
 }

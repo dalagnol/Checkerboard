@@ -53,7 +53,7 @@ export function Sidebar() {
               onClick={() => push(profile(user?.id))}
               selected={pathname.includes("/user/")}
             />
-            {user?.type === 0 && (
+            {!user?.type && (
               <UsersManagement
                 onClick={() => push(users())}
                 selected={pathname === users()}

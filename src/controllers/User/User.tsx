@@ -189,6 +189,8 @@ export function User({ children }: Props) {
       );
       setDatabase(res);
       save(LS_DATABASE_KEY, res);
+
+      return true;
     },
     [database, setDatabase]
   );

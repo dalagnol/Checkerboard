@@ -41,6 +41,10 @@ export const Title = styled.h1`
   font-size: 1.8em;
 
   color: ${({ theme }) => theme.users?.color};
+
+  text-align: center;
+
+  width: 80%;
 `;
 
 export const Users = styled.div`

@@ -1,6 +1,8 @@
 import React, { useContext, useMemo } from "react";
 import { useTheme } from "theme";
 import { themejson } from "./json";
+import { useLocale } from "locale";
+import { dictionary } from "./json";
 import { UserContext } from "controllers";
 import { useHistory } from "react-router-dom";
 import { profile } from "routes/paths";
@@ -18,6 +20,7 @@ import {
 
 export function Users() {
   const { user, users, remove } = useContext(UserContext);
+  const { Text } = useLocale("Users", dictionary);
   useTheme("Users", themejson);
 
   const { push } = useHistory();
@@ -30,27 +33,40 @@ export function Users() {
             <UserTile key={x.id}>
               <div onClick={() => push(profile(x.id))}>
                 <Header>{x.name}</Header>
-                <Subheader>{x.type ? "Common" : "Administrator"}</Subheader>
+                <Subheader>
+                  {x.type ? <Text>Common</Text> : <Text>Administrator</Text>}
+                </Subheader>
               </div>
               {x.id !== 0 && <Delete onClick={() => remove(x.id)} />}
             </UserTile>
           )
       ),
-    [users, user, remove, push]
+    // eslint-disable-next-line
+    [users, user, remove, push, Text]
   );
 
   return (
     <Container>
-      <Main>
-        <Title>User Management</Title>
-        <Element>
-          {usersList.length === 1 && !usersList[0] ? (
-            <Header>There are no users</Header>
-          ) : (
-            usersList
-          )}
-        </Element>
-      </Main>
+      {!user?.type ? (
+        <Main>
+          <Title>
+            <Text>User Management</Text>
+          </Title>
+          <Element>
+            {usersList.length === 1 && !usersList[0] ? (
+              <Header>
+                <Text>There are no users</Text>
+              </Header>
+            ) : (
+              usersList
+            )}
+          </Element>
+        </Main>
+      ) : (
+        <Title>
+          <Text>Common users don't have access to this feature.</Text>
+        </Title>
+      )}
     </Container>
   );
 }
