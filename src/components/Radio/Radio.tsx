@@ -5,7 +5,7 @@ import { themejson } from "./json";
 import { Radio as Element, Span, Container } from "./styles";
 
 interface Props {
-  value: string;
+  value?: string;
   name: string;
   defaultChecked: boolean;
   onChange: any;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Trash } from "@styled-icons/feather/Trash";
+import { Trash, Check } from "@styled-icons/feather";
 
 export const Container = styled.main`
   width: 100%;
@@ -111,5 +111,35 @@ export const Delete = styled(Trash)`
 
   &:hover {
     color: ${({ theme }) => theme.users?.color};
+  }
+`;
+
+export const Label = styled.label`
+  font-size: 1.1em;
+  font-family: Montserrat;
+  
+  color ${({ theme }) => theme.users?.color};
+
+  width: 100%;
+`;
+
+export const Success = styled(Check)`
+  width: 30px;
+  height: 30px;
+
+  color: white;
+`;
+
+export const Radios = styled.div`
+  width: 100%;
+
+  display: flex;
+
+  margin: 15px 0;
+
+  div {
+    width: 100%;
+
+    display: flex;
   }
 `;
