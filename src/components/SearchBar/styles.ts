@@ -5,6 +5,8 @@ export const Container = styled.div`
   display: flex;
 
   width: 100%;
+
+  position: relative;
 `;
 
 export const SearchIcon = styled(Search)`
@@ -12,4 +14,7 @@ export const SearchIcon = styled(Search)`
   height: 30px;
 
   position: absolute;
+
+  right: 10px;
+  top: 30px;
 `;

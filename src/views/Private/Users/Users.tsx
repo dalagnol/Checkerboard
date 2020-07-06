@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useTheme } from "theme";
 import { themejson } from "./json";
 import { useLocale } from "locale";
@@ -6,6 +6,7 @@ import { dictionary } from "./json";
 import { UserContext } from "controllers";
 import { useHistory } from "react-router-dom";
 import { profile } from "routes/paths";
+import { IUser } from "interfaces/user";
 
 import {
   Container,
@@ -24,15 +25,17 @@ export function Users() {
   const { Text } = useLocale("Users", dictionary);
   useTheme("Users", themejson);
 
+  const [usersAppearing, setUsersAppearing] = useState<Array<IUser>>(users);
+
   const { push } = useHistory();
 
   const usersList = useMemo(
     () =>
-      users.map(
+      usersAppearing.map(
         x =>
           x.id !== user?.id && (
             <UserTile key={x.id}>
-              <div onClick={() => push(profile(x.id))}>
+              <div onClick={() => x.id && push(profile(x.id))}>
                 <Header>{x.name}</Header>
                 <Subheader>
                   {x.type ? <Text>Common</Text> : <Text>Administrator</Text>}
@@ -43,8 +46,12 @@ export function Users() {
           )
       ),
     // eslint-disable-next-line
-    [users, user, remove, push, Text]
+    [usersAppearing, user, remove, push, Text]
   );
+
+  useEffect(() => {
+    setUsersAppearing(users);
+  }, [users]);
 
   return (
     <Container>
@@ -53,9 +60,9 @@ export function Users() {
           <Title>
             <Text>User Management</Text>
           </Title>
-          <SearchBar />
+          <SearchBar setUsersAppearing={setUsersAppearing} />
           <Element>
-            {usersList.length === 1 && !usersList[0] ? (
+            {!usersList.length || (usersList.length === 1 && !usersList[0]) ? (
               <Header>
                 <Text>There are no users</Text>
               </Header>
