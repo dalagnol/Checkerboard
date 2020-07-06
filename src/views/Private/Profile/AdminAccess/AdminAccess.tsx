@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { UserContext } from "controllers";
 import { IUser } from "interfaces/user";
 import { useLocale } from "locale";
 import { dictionary } from "../json";
 
 import { Radio, Button } from "components";
-import { Main, Title, Subheader, Radios, Label } from "./styles";
+import { Main, Title, Subheader, Radios, Label, Success } from "./styles";
 
 export function AdminAccess({ id }: Props) {
   const { Text } = useLocale("Profile", dictionary);
@@ -13,6 +13,19 @@ export function AdminAccess({ id }: Props) {
 
   const [selectedUser, setSelectedUser] = useState<IUser>(
     users.find(user => user.id === id)!
+  );
+  const [check, setCheck] = useState<boolean>(false);
+
+  const feedback = useCallback(
+    (response: boolean) => {
+      if (response) {
+        setCheck(true);
+        setTimeout(() => {
+          setCheck(false);
+        }, 2000);
+      }
+    },
+    [setCheck]
   );
 
   return !user?.type ? (
@@ -41,8 +54,13 @@ export function AdminAccess({ id }: Props) {
           </Label>
         </div>
       </Radios>
-      <Button onClick={() => changeType(selectedUser.id, selectedUser.type)}>
-        <Text>Save</Text>
+      <Button
+        onClick={() => {
+          const res = changeType(selectedUser.id, selectedUser.type);
+          feedback(res);
+        }}
+      >
+        {check ? <Success /> : <Text>Save</Text>}
       </Button>
     </Main>
   ) : (
