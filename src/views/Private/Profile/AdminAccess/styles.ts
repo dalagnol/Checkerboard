@@ -27,6 +27,10 @@ export const Title = styled.h1`
   color: ${({ theme }) => theme.profile?.color};
 
   margin: 10px 0 5px 0;
+
+  width: 80%;
+
+  text-align: center;
 `;
 
 export const Subheader = styled.h1`
