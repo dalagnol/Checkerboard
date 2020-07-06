@@ -143,7 +143,7 @@ export function Form() {
               <Radio
                 name={"gender"}
                 value={"Male"}
-                defaultChecked={true}
+                defaultChecked={false}
                 onChange={onChangeHandler}
               />
               <Label>
