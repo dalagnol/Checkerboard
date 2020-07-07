@@ -14,7 +14,7 @@ interface Props {
 const AdminRoute = (props: Props) => {
   const { user } = useContext(UserContext);
 
-  return user && user.type ? <Route {...props} /> : null;
+  return user && !user.type ? <Route {...props} /> : null;
 };
 
 export default function () {
