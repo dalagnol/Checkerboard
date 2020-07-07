@@ -33,6 +33,7 @@ export interface IUser {
   email: string;
   gender: string;
   password: string;
+  grid: string;
 }
 
 export type IUserContext = {
