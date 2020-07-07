@@ -7,5 +7,10 @@ import { Sidebar } from "components";
 export default function App() {
   const { user } = useContext(UserContext);
 
-  return <><Sidebar />{user ? <Private /> : <Public />}</>
+  return (
+    <>
+      <Sidebar />
+      {user ? <Private /> : <Public />}
+    </>
+  );
 }

@@ -19,5 +19,7 @@ export const User = createContext<IUserContext>({
     return false;
   },
   remove(id: number) {},
-  changeType(id: number, type: IUserType) {}
+  changeType(id: number, type: IUserType) {
+    return false;
+  }
 });

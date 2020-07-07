@@ -43,5 +43,5 @@ export type IUserContext = {
   logout: () => void;
   create: (data: ICreateUserData) => boolean;
   remove: (id: number) => void;
-  changeType: (id: number, type: IUserType) => void;
+  changeType: (id: number, type: IUserTypes) => boolean;
 };

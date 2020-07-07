@@ -83,10 +83,10 @@ export function Form() {
         case "Password must have more than 6 character":
           setErrors({ ...errors, password: true });
           break;
-        case "Invalid email":
+        case "Invalid email" || "Email is already being used":
           setErrors({ ...errors, email: true });
           break;
-        case "You must insert a name":
+        case "You must insert a name" || "Name is already being used":
           setErrors({ ...errors, name: true });
           break;
         case "Max number of users reached":
@@ -143,7 +143,7 @@ export function Form() {
               <Radio
                 name={"gender"}
                 value={"Male"}
-                defaultChecked={true}
+                defaultChecked={false}
                 onChange={onChangeHandler}
               />
               <Label>

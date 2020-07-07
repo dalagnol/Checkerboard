@@ -55,7 +55,7 @@ export const Container = styled.label`
 
   position: relative;
 
-  padding-left: 35px;
+  padding-left: 28px;
   margin-bottom: 12px;
 
   cursor: pointer;

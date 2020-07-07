@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { CheckerBoard } from "controllers";
+import { CheckerBoard, UserContext } from "controllers";
 
-import { landing, profile, checkerboard } from "./paths";
-import { Landing, Profile, Checkerboard } from "views";
+import { landing, profile, checkerboard, users } from "./paths";
+import { Landing, Profile, Checkerboard, Users } from "views";
 
-export default function() {
+interface Props {
+  exact?: boolean;
+  path: string;
+  render: any;
+}
+
+const AdminRoute = (props: Props) => {
+  const { user } = useContext(UserContext);
+
+  return user && !user.type ? <Route {...props} /> : null;
+};
+
+export default function () {
   return (
     <Switch>
-      <CheckerBoard>
-        <Route exact path={landing()} render={() => <Landing />} />
-        <Route exact path={profile()} render={() => <Profile />} />
-        <Route exact path={checkerboard()} render={() => <Checkerboard />} />
-        <Redirect exact to={landing()} />
-      </CheckerBoard>
+      <Route path={profile()} render={() => <Profile />} />
+      <Route exact path={landing()} render={() => <Landing />} />
+      <Route
+        exact
+        path={checkerboard()}
+        render={() => (
+          <CheckerBoard>
+            <Checkerboard />
+          </CheckerBoard>
+        )}
+      />
+      <AdminRoute exact path={users()} render={() => <Users />} />
+      <Redirect exact to={landing()} />
     </Switch>
   );
 }

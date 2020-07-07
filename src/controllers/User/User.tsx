@@ -6,7 +6,7 @@ import {
   load,
   findAvailableId,
   checkLS,
-  checkIfUserExists
+  checkIfUserExists,
 } from "helpers";
 
 const LS_USER_KEY = "user";
@@ -25,10 +25,12 @@ interface User {
 }
 
 export function User({ children }: Props) {
-  const [user, setUser] = useState<IUser | null>(load(LS_USER_KEY));
+  const [user, setUser] = useState<IUser | null>(null);
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
 
   useEffect(() => {
+    debugger;
+    console.log("here");
     checkLS(["theme", "user"], {
       theme: ["light", "dark"],
       user: {
@@ -37,9 +39,10 @@ export function User({ children }: Props) {
         email: "",
         gender: "",
         password: "",
-        type: 0
-      }
+        type: 0,
+      },
     });
+    setUser(load(LS_USER_KEY));
     if (!database) {
       const users = [
         {
@@ -48,11 +51,11 @@ export function User({ children }: Props) {
           email: "root@icloud.com",
           gender: "Male",
           password: "123test",
-          type: 0
-        }
+          type: 0,
+        },
       ];
       save(LS_DATABASE_KEY, users);
-      setDatabase(users);
+      setDatabase(users as Array<IUser>);
     }
     // eslint-disable-next-line
   }, []);
@@ -95,7 +98,7 @@ export function User({ children }: Props) {
         database.push(newUser);
         save(LS_DATABASE_KEY, database);
       } else {
-        const res = database.map(user =>
+        const res = database.map((user) =>
           user.id === newUser.id ? newUser : user
         );
         setDatabase(res);
@@ -136,18 +139,25 @@ export function User({ children }: Props) {
         throw new Error("Max number of users reached");
       } else {
         if (name) {
-          if (email && email.includes("@")) {
-            try {
-              checkIfUserExists(database, email);
-            } catch ({ message }) {
-              throw new Error("Invalid email");
+          try {
+            checkIfUserExists(database, name, email);
+          } catch ({ message }) {
+            switch (message) {
+              case "Name is already being used":
+                throw new Error("Name is already being used");
+              case "Email is already being used":
+                throw new Error("Email is already being used");
+              default:
+                throw new Error("Name is already being used");
             }
+          }
+          if (email && email.includes("@")) {
             if (password && password.length > 6) {
               updateDB(
                 {
                   id: findAvailableId(database),
                   ...data,
-                  type: type || 1
+                  type: type || 1,
                 },
                 true
               );
@@ -168,7 +178,7 @@ export function User({ children }: Props) {
 
   const remove = useCallback(
     (id: number) => {
-      const res = database.filter(user => user.id !== id);
+      const res = database.filter((user) => user.id !== id);
       setDatabase(res);
       save(LS_DATABASE_KEY, res);
     },
@@ -177,11 +187,13 @@ export function User({ children }: Props) {
 
   const changeType = useCallback(
     (id: number, type: IUserType) => {
-      const res = database.map(user =>
+      const res = database.map((user) =>
         user.id === id ? { ...user, type: type } : user
       );
       setDatabase(res);
       save(LS_DATABASE_KEY, res);
+
+      return true;
     },
     [database, setDatabase]
   );
@@ -200,7 +212,7 @@ export function User({ children }: Props) {
         logout,
         create,
         remove,
-        changeType
+        changeType,
       }}
     >
       {children}
