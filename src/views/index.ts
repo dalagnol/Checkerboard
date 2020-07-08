@@ -2,7 +2,7 @@ export { SignIn, SignUp } from "./Public";
 export {
   Landing,
   Profile,
-  Checkerboards,
+  CheckerboardsList,
   Checkerboard,
   Users,
 } from "./Private";

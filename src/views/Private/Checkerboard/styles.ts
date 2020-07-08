@@ -10,6 +10,8 @@ export const Grid = styled.main`
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
 
+  overflow: hidden;
+
   @media only screen and (max-width: 600px) {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(15, 1fr);

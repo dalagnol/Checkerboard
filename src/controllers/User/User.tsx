@@ -214,6 +214,27 @@ export function User({ children }: Props) {
     [user]
   );
 
+  const createGrid = useCallback(
+    (name: string) => {
+      if (user!.grids.find((grid) => grid.name === name)) {
+        throw new Error("This name is already being used");
+      } else {
+        setUser({
+          ...user,
+          grids: [
+            ...user!.grids,
+            {
+              id: findAvailableId(user!.grids),
+              name,
+              data: toBinary(randomGrid()),
+            },
+          ],
+        } as IUser);
+      }
+    },
+    [user]
+  );
+
   const removeGrid = useCallback(
     (id: number) => {
       setUser({
@@ -241,6 +262,7 @@ export function User({ children }: Props) {
         remove,
         changeType,
         setUserGrid,
+        createGrid,
         removeGrid,
       }}
     >

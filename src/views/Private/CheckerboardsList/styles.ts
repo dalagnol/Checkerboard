@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Trash } from "@styled-icons/feather";
+import { Trash, Plus } from "@styled-icons/feather";
 
 export const Container = styled.main`
   width: 100%;
@@ -98,6 +98,21 @@ export const Delete = styled(Trash)`
   width: 25px;
 
   margin: 20px;
+
+  color: ${({ theme }) => theme.checkerboards?.secondary};
+
+  text-shadow: 0 0 10px ${({ theme }) => theme.checkerboards?.secondary};
+
+  &:hover {
+    color: ${({ theme }) => theme.checkerboards?.color};
+  }
+`;
+
+export const Add = styled(Plus)`
+  cursor: pointer;
+
+  height: 25px;
+  width: 25px;
 
   color: ${({ theme }) => theme.checkerboards?.secondary};
 

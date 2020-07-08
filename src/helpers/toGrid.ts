@@ -1,4 +1,4 @@
-import { IGrid } from "interfaces/Checker";
+import { IGrid } from "interfaces/checker";
 
 export function toGrid(binary: string) {
   const res = [];
@@ -14,7 +14,7 @@ export function toGrid(binary: string) {
       binary
         .substring(0, 20)
         .split("")
-        .map(bit => Number(bit))
+        .map((bit) => Number(bit))
     );
     binary = binary.substring(20);
   }

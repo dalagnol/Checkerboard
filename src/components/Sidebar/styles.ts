@@ -6,18 +6,13 @@ import {
   Home,
   User,
   LogOut,
-  Users
+  Users,
 } from "@styled-icons/feather";
 import { ChessBoard } from "@styled-icons/fa-solid/ChessBoard";
 
 interface Props {
   selected: boolean;
 }
-
-export const Container = styled.main`
-  width: 100%;
-  height: 100%;
-`;
 
 export const Sidebar = styled.aside`
   width: 60px;

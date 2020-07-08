@@ -4,7 +4,7 @@ import { Grids } from "interfaces/grids";
 import { UserContext } from "controllers";
 import { useParams } from "react-router-dom";
 import { CheckerboardContext } from "./context";
-import { IGrid } from "interfaces/Checker";
+import { IGrid } from "interfaces/checker";
 
 interface Props {
   children: any;

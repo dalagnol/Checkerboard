@@ -3,22 +3,26 @@ import { CheckerboardContext } from "controllers";
 import { useTheme } from "theme";
 import { themejson } from "./json";
 
-import { Tile as Element } from "./styles";
-
 interface Props {
   row: number;
   column: number;
 }
 export function Tile({ row, column }: Props) {
   const { grid, toggle } = useContext(CheckerboardContext);
-  useTheme("Tile", themejson);
+  const { contexts } = useTheme("Tile", themejson);
+  const checked = grid[row][column];
 
-  return (
-    <Element
-      onClick={() => toggle(row, column)}
-      row={row}
-      column={column}
-      checked={grid[row][column]}
-    />
-  );
+  const divStyle = {
+    cursor: "pointer",
+    transition: "all 0.4s ease-in-out",
+    gridColumnStart: column + 1,
+    gridColumnEnd: column + 2,
+    gridRowStart: row + 1,
+    gridRowEnd: row + 2,
+    backgroundColor: checked
+      ? contexts.tile?.output.checked
+      : contexts.tile?.output.unchecked,
+  };
+
+  return <div onClick={() => toggle(row, column)} style={divStyle} />;
 }

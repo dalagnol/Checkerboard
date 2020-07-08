@@ -24,6 +24,7 @@ export type IGrid = [
 ];
 
 export type ICheckerContext = {
+  grid: IGrid;
   check: (x: number, y: number) => void;
   uncheck: (x: number, y: number) => void;
   toggle: (x: number, y: number) => void;

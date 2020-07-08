@@ -8,7 +8,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { landing, profile, grids, users } from "routes/paths";
 
 import {
-  Container,
   Sidebar as Element,
   Light,
   Dark,
@@ -31,38 +30,36 @@ export function Sidebar() {
   const { pathname } = useLocation();
 
   return (
-    <Container>
-      <Element>
-        {theme.current === "light" ? (
-          <Light onClick={() => theme.set("dark")} />
-        ) : (
-          <Dark onClick={() => theme.set("light")} />
-        )}
-        <Language onClick={() => set(oppositeLang)} />
-        {user && (
-          <>
-            <Main
-              onClick={() => push(landing())}
-              selected={pathname === landing()}
+    <Element>
+      {theme.current === "light" ? (
+        <Light onClick={() => theme.set("dark")} />
+      ) : (
+        <Dark onClick={() => theme.set("light")} />
+      )}
+      <Language onClick={() => set(oppositeLang)} />
+      {user && (
+        <>
+          <Main
+            onClick={() => push(landing())}
+            selected={pathname === landing()}
+          />
+          <Checkerboard
+            onClick={() => push(grids())}
+            selected={pathname === grids()}
+          />
+          <Profile
+            onClick={() => push(profile(user?.id))}
+            selected={pathname.includes("/user/")}
+          />
+          {!user?.type && (
+            <UsersManagement
+              onClick={() => push(users())}
+              selected={pathname === users()}
             />
-            <Checkerboard
-              onClick={() => push(grids())}
-              selected={pathname === grids()}
-            />
-            <Profile
-              onClick={() => push(profile(user?.id))}
-              selected={pathname.includes("/user/")}
-            />
-            {!user?.type && (
-              <UsersManagement
-                onClick={() => push(users())}
-                selected={pathname === users()}
-              />
-            )}
-            <Logout onClick={() => logout()} />
-          </>
-        )}
-      </Element>
-    </Container>
+          )}
+          <Logout onClick={() => logout()} />
+        </>
+      )}
+    </Element>
   );
 }
