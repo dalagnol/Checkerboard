@@ -6,5 +6,6 @@ export const signup = (): string => "/signup";
 export const landing = (): string => "/";
 export const profile = (id?: number): string =>
   `/user/${id || id === 0 ? id : ":id"}`;
-export const checkerboard = (): string => "/checkerboard";
+export const grid = (id?: number): string =>
+  `/grid/${id || id === 0 ? id : ":id"}`;
 export const users = (): string => "/users";

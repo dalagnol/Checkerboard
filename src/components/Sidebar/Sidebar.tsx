@@ -5,7 +5,7 @@ import { useTheme } from "theme";
 import { themejson } from "./json";
 
 import { useHistory, useLocation } from "react-router-dom";
-import { landing, profile, checkerboard, users } from "routes/paths";
+import { landing, profile, grid, users } from "routes/paths";
 
 import {
   Container,
@@ -17,7 +17,7 @@ import {
   Checkerboard,
   Profile,
   UsersManagement,
-  Logout
+  Logout,
 } from "./styles";
 
 export function Sidebar() {
@@ -46,8 +46,8 @@ export function Sidebar() {
               selected={pathname === landing()}
             />
             <Checkerboard
-              onClick={() => push(checkerboard())}
-              selected={pathname === checkerboard()}
+              onClick={() => push(grid(0))}
+              selected={pathname === grid()}
             />
             <Profile
               onClick={() => push(profile(user?.id))}

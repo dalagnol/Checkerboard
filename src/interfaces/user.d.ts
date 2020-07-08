@@ -1,3 +1,5 @@
+import { Grids } from "./grids";
+
 export type IAuthenticateErrors = {
   credential: boolean;
   password: boolean;
@@ -33,16 +35,18 @@ export interface IUser {
   email: string;
   gender: string;
   password: string;
-  grid: string;
+  grids: Array<Grids.IGrid>;
 }
 
 export type IUserContext = {
   user: IUser | null;
   users: Array<IUser>;
+  grids: Array<Grids.IGrid>;
   authenticate: (credential: string, password: string) => void;
   update: (user: IUser) => boolean;
   logout: () => void;
   create: (data: ICreateUserData) => boolean;
   remove: (id: number) => void;
   changeType: (id: number, type: IUserTypes) => boolean;
+  setUserGrid: (id: number, data: Grids.GridBinary) => void;
 };

@@ -4,12 +4,14 @@ import {
   IUserContext,
   IUser,
   ICreateUserData,
-  IUserType
+  IUserType,
 } from "interfaces/user";
+import { Grids } from "interfaces/grids";
 
 export const User = createContext<IUserContext>({
   user: null,
   users: [],
+  grids: [{ id: 0, name: "", data: "" }],
   authenticate(credential: string, password: string) {},
   update(user: IUser) {
     return false;
@@ -21,5 +23,6 @@ export const User = createContext<IUserContext>({
   remove(id: number) {},
   changeType(id: number, type: IUserType) {
     return false;
-  }
+  },
+  setUserGrid(id: number, data: Grids.GridBinary) {},
 });

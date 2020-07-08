@@ -7,7 +7,10 @@ import {
   findAvailableId,
   checkLS,
   checkIfUserExists,
+  randomGrid,
+  toBinary,
 } from "helpers";
+import { Grids } from "interfaces/grids";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -29,8 +32,6 @@ export function User({ children }: Props) {
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
 
   useEffect(() => {
-    debugger;
-    console.log("here");
     checkLS(["theme", "user"], {
       theme: ["light", "dark"],
       user: {
@@ -40,6 +41,7 @@ export function User({ children }: Props) {
         gender: "",
         password: "",
         type: 0,
+        grids: [],
       },
     });
     setUser(load(LS_USER_KEY));
@@ -52,6 +54,7 @@ export function User({ children }: Props) {
           gender: "Male",
           password: "123test",
           type: 0,
+          grids: [{ id: 0, name: "first", data: toBinary(randomGrid()) }],
         },
       ];
       save(LS_DATABASE_KEY, users);
@@ -156,8 +159,11 @@ export function User({ children }: Props) {
               updateDB(
                 {
                   id: findAvailableId(database),
-                  ...data,
                   type: type || 1,
+                  ...data,
+                  grids: [
+                    { id: 0, name: "first", data: toBinary(randomGrid()) },
+                  ],
                 },
                 true
               );
@@ -198,6 +204,16 @@ export function User({ children }: Props) {
     [database, setDatabase]
   );
 
+  const setUserGrid = useCallback(
+    (id: number, data: Grids.GridBinary) => {
+      setUser({
+        ...user,
+        grids: user!.grids.map((grid) => (grid.id === id ? data : grid)),
+      } as IUser);
+    },
+    [user]
+  );
+
   useEffect(() => {
     save(LS_USER_KEY, user);
   }, [user]);
@@ -207,12 +223,14 @@ export function User({ children }: Props) {
       value={{
         user,
         users: database,
+        grids: user?.grids!,
         authenticate,
         update,
         logout,
         create,
         remove,
         changeType,
+        setUserGrid,
       }}
     >
       {children}

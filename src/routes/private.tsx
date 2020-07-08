@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { CheckerBoard, UserContext } from "controllers";
 
-import { landing, profile, checkerboard, users } from "./paths";
+import { landing, profile, grid, users } from "./paths";
 import { Landing, Profile, Checkerboard, Users } from "views";
 
 interface Props {
@@ -24,7 +24,7 @@ export default function () {
       <Route exact path={landing()} render={() => <Landing />} />
       <Route
         exact
-        path={checkerboard()}
+        path={grid()}
         render={() => (
           <CheckerBoard>
             <Checkerboard />
