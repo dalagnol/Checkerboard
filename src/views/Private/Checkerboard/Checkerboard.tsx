@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from "react";
-import { CheckerContext } from "controllers";
+import { CheckerboardContext } from "controllers";
 
 import { Grid as Element } from "./styles";
 import { Tile, Shuffle, Invert } from "components";
 
 export function Checkerboard() {
-  const { grid } = useContext(CheckerContext);
+  const { grid } = useContext(CheckerboardContext);
 
   return (
     <Element>

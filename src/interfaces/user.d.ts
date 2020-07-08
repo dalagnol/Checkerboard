@@ -49,4 +49,5 @@ export type IUserContext = {
   remove: (id: number) => void;
   changeType: (id: number, type: IUserTypes) => boolean;
   setUserGrid: (id: number, data: Grids.GridBinary) => void;
+  removeGrid: (id: number) => void;
 };

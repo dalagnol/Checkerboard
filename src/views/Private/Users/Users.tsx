@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "theme";
 import { themejson } from "./json";
 import { useLocale } from "locale";
@@ -16,7 +16,7 @@ import {
   UserTile,
   Header,
   Subheader,
-  Delete
+  Delete,
 } from "./styles";
 import { SearchBar } from "components";
 
@@ -29,24 +29,19 @@ export function Users() {
 
   const { push } = useHistory();
 
-  const usersList = useMemo(
-    () =>
-      usersAppearing.map(
-        x =>
-          x.id !== user?.id && (
-            <UserTile key={x.id}>
-              <div onClick={() => x.id && push(profile(x.id))}>
-                <Header>{x.name}</Header>
-                <Subheader>
-                  {x.type ? <Text>Common</Text> : <Text>Administrator</Text>}
-                </Subheader>
-              </div>
-              {x.id !== 0 && <Delete onClick={() => remove(x.id)} />}
-            </UserTile>
-          )
-      ),
-    // eslint-disable-next-line
-    [usersAppearing, user, remove, push, Text]
+  const usersList = usersAppearing.map(
+    (x) =>
+      x.id !== user?.id && (
+        <UserTile key={x.id}>
+          <div onClick={() => x.id && push(profile(x.id))}>
+            <Header>{x.name}</Header>
+            <Subheader>
+              <Text>{x.type ? "Common" : "Administrator"}</Text>
+            </Subheader>
+          </div>
+          {x.id !== 0 && <Delete onClick={() => remove(x.id)} />}
+        </UserTile>
+      )
   );
 
   useEffect(() => {

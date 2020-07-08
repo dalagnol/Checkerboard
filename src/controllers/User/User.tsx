@@ -214,6 +214,16 @@ export function User({ children }: Props) {
     [user]
   );
 
+  const removeGrid = useCallback(
+    (id: number) => {
+      setUser({
+        ...user,
+        grids: user!.grids.filter((grid) => grid.id !== id),
+      } as IUser);
+    },
+    [user]
+  );
+
   useEffect(() => {
     save(LS_USER_KEY, user);
   }, [user]);
@@ -231,6 +241,7 @@ export function User({ children }: Props) {
         remove,
         changeType,
         setUserGrid,
+        removeGrid,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ import {
   Success,
   Radios,
   Link,
-  ModalText
+  ModalText,
 } from "./styles";
 import { Input, Button, Radio } from "components";
 
@@ -25,14 +25,14 @@ export function Form() {
     name: "",
     email: "",
     gender: "",
-    password: ""
+    password: "",
   });
   const [check, setCheck] = useState<boolean>(false);
   const [errors, setErrors] = useState<ICreateErrors>({
     name: false,
     email: false,
     password: false,
-    maxUsers: false
+    maxUsers: false,
   });
 
   const { push } = useHistory();
@@ -59,11 +59,11 @@ export function Form() {
 
   const onChangeHandler = (e: any) => {
     const {
-      target: { name, value }
+      target: { name, value },
     } = e;
     let result = {
       ...data,
-      [name]: value
+      [name]: value,
     };
     setData(result);
   };
@@ -76,7 +76,7 @@ export function Form() {
         name: "",
         email: "",
         gender: "",
-        password: ""
+        password: "",
       });
     } catch ({ message }) {
       switch (message) {
@@ -95,7 +95,7 @@ export function Form() {
             name: "",
             email: "",
             gender: "",
-            password: ""
+            password: "",
           });
           break;
         default:
@@ -172,10 +172,10 @@ export function Form() {
             onChange={onChangeHandler}
           />
           <Button onClick={signUpUser}>
-            {check ? <Success /> : <Text>Sign Up</Text>}
+            {check ? <Success /> : <Text>Sign up</Text>}
           </Button>
           <Link onClick={() => push(signin())}>
-            <Text>Sign In</Text>
+            <Text>Sign in</Text>
           </Link>
         </>
       )}

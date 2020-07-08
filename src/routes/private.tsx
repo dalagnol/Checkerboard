@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { CheckerBoard, UserContext } from "controllers";
+import { CheckerBoard as CheckerboardContext, UserContext } from "controllers";
 
-import { landing, profile, grid, users } from "./paths";
-import { Landing, Profile, Checkerboard, Users } from "views";
+import { landing, profile, grid, grids, users } from "./paths";
+import { Landing, Profile, Checkerboard, Checkerboards, Users } from "views";
 
 interface Props {
   exact?: boolean;
@@ -23,14 +23,14 @@ export default function () {
       <Route path={profile()} render={() => <Profile />} />
       <Route exact path={landing()} render={() => <Landing />} />
       <Route
-        exact
         path={grid()}
         render={() => (
-          <CheckerBoard>
+          <CheckerboardContext>
             <Checkerboard />
-          </CheckerBoard>
+          </CheckerboardContext>
         )}
       />
+      <Route path={grids()} render={() => <Checkerboards />} />
       <AdminRoute exact path={users()} render={() => <Users />} />
       <Redirect exact to={landing()} />
     </Switch>

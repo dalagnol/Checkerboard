@@ -3,7 +3,7 @@ import { randomGrid, toBinary, toGrid, zeroesGrid } from "helpers";
 import { Grids } from "interfaces/grids";
 import { UserContext } from "controllers";
 import { useParams } from "react-router-dom";
-import { CheckerContext } from "./context";
+import { CheckerboardContext } from "./context";
 import { IGrid } from "interfaces/Checker";
 
 interface Props {
@@ -72,10 +72,10 @@ export function CheckerBoard({ children }: Props) {
   }, [data]);
 
   return (
-    <CheckerContext.Provider
+    <CheckerboardContext.Provider
       value={{ grid: data, toggle, check, uncheck, shuffle, invert }}
     >
       {children}
-    </CheckerContext.Provider>
+    </CheckerboardContext.Provider>
   );
 }
