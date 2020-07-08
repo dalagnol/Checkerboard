@@ -15,12 +15,13 @@ import {
   CheckerTile,
   Delete,
   Add,
+  NameEditing,
 } from "./styles";
 import { Input, Button } from "components";
 
 export function CheckerboardsList() {
   const [newGridName, setNewGridName] = useState<string>("");
-  const [editing, setEditing] = useState<boolean>(false);
+  const [editing, setEditing] = useState<EditingData>({ state: false, id: 0 });
   const [creating, setCreating] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -30,15 +31,36 @@ export function CheckerboardsList() {
 
   const { push } = useHistory();
 
+  console.log(editing);
   const checkerboardsList = useMemo(
     () =>
       grids.map((x) => (
-        <CheckerTile key={x.id} onDoubleClick={() => setEditing(true)}>
-          <Header onClick={() => push(grid(x.id))}>{x.name}</Header>
-          {x.id !== 0 && <Delete onClick={() => removeGrid(x.id)} />}
+        <CheckerTile key={x.id} onClick={() => push(grid(x.id))}>
+          {editing.state && editing.id === x.id ? (
+            <NameEditing
+              type={"text"}
+              value={x.name}
+              onChange={(e: any) => setNewGridName(e.target.value)}
+            />
+          ) : (
+            <Header
+              onClick={(e: any) => e.stopPropagation()}
+              onDoubleClick={() => setEditing({ state: true, id: x.id })}
+            >
+              {x.name}
+            </Header>
+          )}
+          {x.id !== 0 && (
+            <Delete
+              onClick={(e: any) => {
+                e.stopPropagation();
+                removeGrid(x.id);
+              }}
+            />
+          )}
         </CheckerTile>
       )),
-    [grids, push, removeGrid]
+    [grids, push, removeGrid, editing]
   );
 
   const create = () => {
@@ -81,4 +103,9 @@ export function CheckerboardsList() {
       </Main>
     </Container>
   );
+}
+
+interface EditingData {
+  state: boolean;
+  id: number;
 }

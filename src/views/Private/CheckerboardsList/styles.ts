@@ -87,8 +87,6 @@ export const Header = styled.h1`
   color: ${({ theme }) => theme.checkerboards?.color};
 
   margin: 20px;
-
-  width: 90%;
 `;
 
 export const Delete = styled(Trash)`
@@ -121,4 +119,11 @@ export const Add = styled(Plus)`
   &:hover {
     color: ${({ theme }) => theme.checkerboards?.color};
   }
+`;
+
+export const NameEditing = styled.input`
+  cursor: pointer;
+
+  border: none;
+  border-bottom: 1px solid ${({ theme }) => theme.checkerboards?.secondary};
 `;
