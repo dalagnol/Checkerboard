@@ -24,7 +24,7 @@ export const User = createContext<IUserContext>({
   changeType(id: number, type: IUserType) {
     return false;
   },
-  setUserGrid(id: number, data: Grids.GridBinary) {},
+  setUserGrid(id: number, name: string, data: Grids.GridBinary) {},
   createGrid(name: string) {},
   removeGrid(id: number) {},
 });

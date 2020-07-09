@@ -205,11 +205,17 @@ export function User({ children }: Props) {
   );
 
   const setUserGrid = useCallback(
-    (id: number, data: Grids.GridBinary) => {
-      setUser({
-        ...user,
-        grids: user!.grids.map((grid) => (grid.id === id ? data : grid)),
-      } as IUser);
+    (id: number, name: string, data: Grids.GridBinary) => {
+      if (!user!.grids.find((grid) => grid.name === name && grid.id !== id)) {
+        setUser({
+          ...user,
+          grids: user!.grids.map((grid) =>
+            grid.id === id ? { id, name, data } : grid
+          ),
+        } as IUser);
+      } else {
+        throw new Error("This name is already being used");
+      }
     },
     [user]
   );

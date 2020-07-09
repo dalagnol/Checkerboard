@@ -66,7 +66,7 @@ export function CheckerBoard({ children }: Props) {
 
   useEffect(() => {
     if (Number(data)) {
-      setUserGrid(grid.id, toBinary(data));
+      setUserGrid(grid.id, grid.name, toBinary(data));
     }
     // eslint-disable-next-line
   }, [data]);

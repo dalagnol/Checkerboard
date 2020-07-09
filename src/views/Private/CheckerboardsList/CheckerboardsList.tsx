@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo, useCallback } from "react";
 import { UserContext } from "controllers";
 import { useTheme } from "theme";
 import { useLocale } from "locale";
@@ -21,17 +21,38 @@ import { Input, Button } from "components";
 
 export function CheckerboardsList() {
   const [newGridName, setNewGridName] = useState<string>("");
-  const [editing, setEditing] = useState<EditingData>({ state: false, id: 0 });
+  const [editing, setEditing] = useState<EditingData>({
+    state: false,
+    id: 0,
+    name: "",
+    data: "",
+  });
   const [creating, setCreating] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const { grids, createGrid, removeGrid } = useContext(UserContext);
+  const { grids, setUserGrid, createGrid, removeGrid } = useContext(
+    UserContext
+  );
   const { Text } = useLocale("Checkerboards", dictionary);
   useTheme("Checkerboards", themejson);
 
   const { push } = useHistory();
 
-  console.log(editing);
+  const keyHandler = useCallback(
+    (e: any) => {
+      if (e.keyCode === 13) {
+        setUserGrid(editing.id, editing.name, editing.data);
+        setEditing({
+          state: false,
+          id: 0,
+          name: "",
+          data: "",
+        });
+      }
+    },
+    [setUserGrid, setEditing, editing]
+  );
+
   const checkerboardsList = useMemo(
     () =>
       grids.map((x) => (
@@ -39,13 +60,24 @@ export function CheckerboardsList() {
           {editing.state && editing.id === x.id ? (
             <NameEditing
               type={"text"}
-              value={x.name}
-              onChange={(e: any) => setNewGridName(e.target.value)}
+              value={editing.name}
+              onChange={(e: any) =>
+                setEditing({ ...editing, name: e.target.value })
+              }
+              onClick={(e: any) => e.stopPropagation()}
+              onKeyDown={keyHandler}
             />
           ) : (
             <Header
               onClick={(e: any) => e.stopPropagation()}
-              onDoubleClick={() => setEditing({ state: true, id: x.id })}
+              onDoubleClick={() =>
+                setEditing({
+                  state: true,
+                  id: x.id,
+                  name: x.name,
+                  data: x.data,
+                })
+              }
             >
               {x.name}
             </Header>
@@ -60,7 +92,7 @@ export function CheckerboardsList() {
           )}
         </CheckerTile>
       )),
-    [grids, push, removeGrid, editing]
+    [grids, push, removeGrid, editing, keyHandler]
   );
 
   const create = () => {
@@ -108,4 +140,6 @@ export function CheckerboardsList() {
 interface EditingData {
   state: boolean;
   id: number;
+  name: string;
+  data: string;
 }

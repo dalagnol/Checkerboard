@@ -125,5 +125,17 @@ export const NameEditing = styled.input`
   cursor: pointer;
 
   border: none;
-  border-bottom: 1px solid ${({ theme }) => theme.checkerboards?.secondary};
+  border-bottom: 1px dashed ${({ theme }) => theme.checkerboards?.hover};
+
+  height: 40px;
+  width: 40%;
+
+  font-size: 1.2em;
+
+  background-color: ${({ theme }) => theme.checkerboards?.backgroundColor};
+  color: ${({ theme }) => theme.checkerboards?.color};
+
+  &:hover {
+    background-color: ${({ theme }) => `${theme.checkerboards?.hover}44`};
+  }
 `;

@@ -1,5 +1,3 @@
-import { IUser } from "interfaces/user";
-
 export function findAvailableId(db: Array<any>) {
   const ids = db.map((x) => x.id);
   ids.sort();
