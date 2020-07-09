@@ -17,5 +17,6 @@ export const Grid = styled.main`
     grid-template-rows: repeat(15, 1fr);
 
     margin-left: 0;
+    margin-top: 60px;
   }
 `;
