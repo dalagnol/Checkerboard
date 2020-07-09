@@ -206,7 +206,10 @@ export function User({ children }: Props) {
 
   const setUserGrid = useCallback(
     (id: number, name: string, data: Grids.GridBinary) => {
-      if (!user!.grids.find((grid) => grid.name === name && grid.id !== id)) {
+      if (
+        name &&
+        !user!.grids.find((grid) => grid.name === name && grid.id !== id)
+      ) {
         setUser({
           ...user,
           grids: user!.grids.map((grid) =>

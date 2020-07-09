@@ -1,4 +1,10 @@
-import React, { useState, useContext, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { UserContext } from "controllers";
 import { useTheme } from "theme";
 import { useLocale } from "locale";
@@ -41,13 +47,19 @@ export function CheckerboardsList() {
   const keyHandler = useCallback(
     (e: any) => {
       if (e.keyCode === 13) {
-        setUserGrid(editing.id, editing.name, editing.data);
-        setEditing({
-          state: false,
-          id: 0,
-          name: "",
-          data: "",
-        });
+        try {
+          setUserGrid(editing.id, editing.name, editing.data);
+          setEditing({
+            state: false,
+            id: 0,
+            name: "",
+            data: "",
+          });
+        } catch ({ message }) {
+          if (message.includes("name")) {
+            setError(true);
+          }
+        }
       }
     },
     [setUserGrid, setEditing, editing]
@@ -66,6 +78,7 @@ export function CheckerboardsList() {
               }
               onClick={(e: any) => e.stopPropagation()}
               onKeyDown={keyHandler}
+              error={error}
             />
           ) : (
             <Header
@@ -92,7 +105,7 @@ export function CheckerboardsList() {
           )}
         </CheckerTile>
       )),
-    [grids, push, removeGrid, editing, keyHandler]
+    [grids, push, removeGrid, editing, keyHandler, error]
   );
 
   const create = () => {
@@ -106,13 +119,21 @@ export function CheckerboardsList() {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 1000);
+    }
+  }, [error]);
+
   return (
     <Container>
       <Main>
         <Title>
           <Text>Checkerboards List</Text>
         </Title>
-        <Add onClick={() => setCreating(true)} />
+        {grids.length < 5 && <Add onClick={() => setCreating(true)} />}
         <Checkerboards>
           {creating && (
             <div>

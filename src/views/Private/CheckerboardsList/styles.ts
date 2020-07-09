@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Trash, Plus } from "@styled-icons/feather";
 
+interface Props {
+  error: boolean;
+}
+
 export const Container = styled.main`
   width: 100%;
   height: 100%;
@@ -121,7 +125,7 @@ export const Add = styled(Plus)`
   }
 `;
 
-export const NameEditing = styled.input`
+export const NameEditing = styled.input<Props>`
   cursor: pointer;
 
   border: none;
@@ -135,7 +139,14 @@ export const NameEditing = styled.input`
   background-color: ${({ theme }) => theme.checkerboards?.backgroundColor};
   color: ${({ theme }) => theme.checkerboards?.color};
 
+  margin: 10px 15px;
+
   &:hover {
     background-color: ${({ theme }) => `${theme.checkerboards?.hover}44`};
   }
+
+  ${({ error }) =>
+    error &&
+    `  animation: 0.9s shake;
+`}
 `;
