@@ -38,7 +38,7 @@ export default function () {
       />
       <Route path={grids()} render={() => <CheckerboardsList />} />
       <AdminRoute exact path={users()} render={() => <Users />} />
-      <Redirect exact to={landing()} />
+      <Redirect to={landing()} />
     </Switch>
   );
 }

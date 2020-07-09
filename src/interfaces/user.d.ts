@@ -51,4 +51,5 @@ export type IUserContext = {
   setUserGrid: (id: number, name: string, data: Grids.GridBinary) => void;
   createGrid: (name: string) => void;
   removeGrid: (id: number) => void;
+  ready: boolean;
 };

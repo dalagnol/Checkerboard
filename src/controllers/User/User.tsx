@@ -30,6 +30,7 @@ interface User {
 export function User({ children }: Props) {
   const [user, setUser] = useState<IUser | null>(null);
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
+  const [ready, setReady] = useState<boolean>(false);
 
   useEffect(() => {
     checkLS(["theme", "user"], {
@@ -60,6 +61,7 @@ export function User({ children }: Props) {
       save(LS_DATABASE_KEY, users);
       setDatabase(users as Array<IUser>);
     }
+    setReady(true);
     // eslint-disable-next-line
   }, []);
 
@@ -274,6 +276,7 @@ export function User({ children }: Props) {
         setUserGrid,
         createGrid,
         removeGrid,
+        ready
       }}
     >
       {children}

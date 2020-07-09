@@ -6,3 +6,4 @@ export {
   Checkerboard,
   Users,
 } from "./Private";
+export { Loader } from "./ini";
