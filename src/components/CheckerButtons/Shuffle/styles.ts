@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { Random } from "@styled-icons/fa-solid/Random";
+import { Shuffle } from "@styled-icons/feather/Shuffle";
 
 interface Props {
   checked: number;
 }
 
-export const Shuffle = styled(Random)<Props>`
+export const ShuffleIcon = styled(Shuffle)<Props>`
   cursor: pointer;
 
   height: 30px;

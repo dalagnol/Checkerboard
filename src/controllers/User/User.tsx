@@ -20,14 +20,6 @@ const LS_DATABASE_KEY = "users";
 interface Props {
   children: any;
 }
-interface User {
-  id: number;
-  type: IUserType;
-  name: string;
-  email: string;
-  gender: string;
-  password: string;
-}
 
 export function User({ children }: Props) {
   const [user, setUser] = useState<IUser | null>(null);
@@ -39,8 +31,9 @@ export function User({ children }: Props) {
   const { theme } = useTheme();
 
   useEffect(() => {
-    checkLS(["theme", "user"], {
+    checkLS(["theme", "lang", "user"], {
       theme: ["light", "dark"],
+      lang: ["en", "pt"],
       user: {
         id: 0,
         name: "",
@@ -68,7 +61,6 @@ export function User({ children }: Props) {
           lang: "en",
         },
       ];
-      save(LS_DATABASE_KEY, users);
       setDatabase(users as Array<IUser>);
     }
     setReady(true);
@@ -115,13 +107,11 @@ export function User({ children }: Props) {
     (newUser: IUser, add: boolean) => {
       if (add) {
         database.push(newUser);
-        save(LS_DATABASE_KEY, database);
       } else {
         const res = database.map((user) =>
           user.id === newUser.id ? newUser : user
         );
         setDatabase(res);
-        save(LS_DATABASE_KEY, res);
       }
     },
     [database, setDatabase]
@@ -183,7 +173,7 @@ export function User({ children }: Props) {
                   type: type || 1,
                   ...data,
                   grids: [
-                    { id: 0, name: "first", data: toBinary(randomGrid()) },
+                    { id: 0, name: "First", data: toBinary(randomGrid()) },
                   ],
                   theme: "light",
                   lang: "en",
@@ -209,7 +199,6 @@ export function User({ children }: Props) {
     (id: number) => {
       const res = database.filter((user) => user.id !== id);
       setDatabase(res);
-      save(LS_DATABASE_KEY, res);
     },
     [database, setDatabase]
   );
@@ -220,7 +209,6 @@ export function User({ children }: Props) {
         user.id === id ? { ...user, type: type } : user
       );
       setDatabase(res);
-      save(LS_DATABASE_KEY, res);
 
       return true;
     },
@@ -280,6 +268,10 @@ export function User({ children }: Props) {
   useEffect(() => {
     save(LS_USER_KEY, user);
   }, [user]);
+
+  useEffect(() => {
+    save(LS_DATABASE_KEY, database);
+  }, [database]);
 
   return (
     <UserContext.Provider
