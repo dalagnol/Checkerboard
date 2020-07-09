@@ -11,20 +11,24 @@ import {
 import { ChessBoard } from "@styled-icons/fa-solid/ChessBoard";
 
 interface Props {
-  selected: boolean;
+  selected?: boolean;
+  dull?: boolean;
 }
 
-export const Sidebar = styled.aside`
+export const Sidebar = styled.aside<Props>`
   width: 60px;
   height: 100%;
 
-  background-color: ${({ theme }) => theme.sidebar?.backgroundColor};
+  background-color: ${({ theme, dull }) =>
+    dull ? theme.sidebar?.dullBackgroundColor : theme.sidebar?.backgroundColor};
 
   display: flex;
   flex-direction: column;
 
   position: absolute;
   z-index: 1000;
+
+  box-shadow: 0 0 20px #00000066;
 
   @media only screen and (max-width: 600px) {
     width: 100%;
@@ -33,10 +37,12 @@ export const Sidebar = styled.aside`
     flex-direction: row;
 
     justify-content: space-evenly;
+
+    overflow: scroll;
   }
 `;
 
-export const Light = styled(Sun)`
+export const Light = styled(Sun)<Props>`
   cursor: pointer;
 
   width: 40px;
@@ -44,10 +50,11 @@ export const Light = styled(Sun)`
 
   margin: 10px;
 
-  color: #ffd561;
+  color: ${({ theme, dull }) =>
+    dull ? theme.sidebar?.dullColor : theme.sidebar?.color};
 `;
 
-export const Dark = styled(Moon)`
+export const Dark = styled(Moon)<Props>`
   cursor: pointer;
 
   width: 40px;
@@ -55,10 +62,11 @@ export const Dark = styled(Moon)`
 
   margin: 10px;
 
-  color: #ffd561;
+  color: ${({ theme, dull }) =>
+    dull ? theme.sidebar?.dullColor : theme.sidebar?.color};
 `;
 
-export const Language = styled(Globe)`
+export const Language = styled(Globe)<Props>`
   cursor: pointer;
 
   width: 40px;
@@ -66,7 +74,8 @@ export const Language = styled(Globe)`
 
   margin: 10px;
 
-  color: #ffd561;
+  color: ${({ theme, dull }) =>
+    dull ? theme.sidebar?.dullColor : theme.sidebar?.color};
 `;
 
 export const Main = styled(Home)<Props>`
@@ -77,7 +86,12 @@ export const Main = styled(Home)<Props>`
 
   margin: 10px;
 
-  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+  color: ${({ theme, selected, dull }) =>
+    selected
+      ? `white`
+      : dull
+      ? theme.sidebar?.dullColor
+      : theme.sidebar?.color};
 `;
 
 export const Checkerboard = styled(ChessBoard)<Props>`
@@ -88,7 +102,12 @@ export const Checkerboard = styled(ChessBoard)<Props>`
 
   margin: 10px;
 
-  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+  color: ${({ theme, selected, dull }) =>
+    selected
+      ? `white`
+      : dull
+      ? theme.sidebar?.dullColor
+      : theme.sidebar?.color};
 `;
 
 export const Profile = styled(User)<Props>`
@@ -99,7 +118,12 @@ export const Profile = styled(User)<Props>`
 
   margin: 10px;
 
-  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+  color: ${({ theme, selected, dull }) =>
+    selected
+      ? `white`
+      : dull
+      ? theme.sidebar?.dullColor
+      : theme.sidebar?.color};
 `;
 
 export const UsersManagement = styled(Users)<Props>`
@@ -110,10 +134,15 @@ export const UsersManagement = styled(Users)<Props>`
 
   margin: 10px;
 
-  color: ${({ selected }) => (selected ? `white` : `#FFD561`)};
+  color: ${({ theme, selected, dull }) =>
+    selected
+      ? `white`
+      : dull
+      ? theme.sidebar?.dullColor
+      : theme.sidebar?.color};
 `;
 
-export const Logout = styled(LogOut)`
+export const Logout = styled(LogOut)<Props>`
   cursor: pointer;
 
   width: 40px;
@@ -121,5 +150,6 @@ export const Logout = styled(LogOut)`
 
   margin: 10px;
 
-  color: #ffd561;
+  color: ${({ theme, dull }) =>
+    dull ? theme.sidebar?.dullColor : theme.sidebar?.color};
 `;

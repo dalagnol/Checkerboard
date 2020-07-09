@@ -29,35 +29,40 @@ export function Sidebar() {
   const { push } = useHistory();
   const { pathname } = useLocation();
 
+  const dull = pathname.includes("grid/");
   return (
-    <Element>
+    <Element dull={dull}>
       {theme.current === "light" ? (
-        <Light onClick={() => theme.set("dark")} />
+        <Light onClick={() => theme.set("dark")} dull={dull} />
       ) : (
-        <Dark onClick={() => theme.set("light")} />
+        <Dark onClick={() => theme.set("light")} dull={dull} />
       )}
-      <Language onClick={() => set(oppositeLang)} />
+      <Language onClick={() => set(oppositeLang)} dull={dull} />
       {user && (
         <>
           <Main
             onClick={() => push(landing())}
             selected={pathname === landing()}
+            dull={dull}
           />
           <Checkerboard
             onClick={() => push(grids())}
             selected={pathname === grids()}
+            dull={dull}
           />
           <Profile
             onClick={() => push(profile(user?.id))}
             selected={pathname.includes("/user/")}
+            dull={dull}
           />
           {!user?.type && (
             <UsersManagement
               onClick={() => push(users())}
               selected={pathname === users()}
+              dull={dull}
             />
           )}
-          <Logout onClick={() => logout()} />
+          <Logout onClick={() => logout()} dull={dull} />
         </>
       )}
     </Element>

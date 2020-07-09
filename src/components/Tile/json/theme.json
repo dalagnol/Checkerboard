@@ -1,10 +1,10 @@
 {
   "light": {
-    "checked": "#ff4e15",
+    "checked": "#ff8000",
     "unchecked": "white"
   },
   "dark": {
-    "checked": "#e2640d",
-    "unchecked": "black"
+    "unchecked": "#3c3835",
+    "checked": "#ffd561"
   }
 }

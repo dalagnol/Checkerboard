@@ -1,8 +1,14 @@
 {
   "light": {
-    "backgroundColor": "#ff5733"
+    "backgroundColor": "#ff5733",
+    "dullBackgroundColor": "#f2eee9",
+    "color": "#ffd561",
+    "dullColor": "#ff8000"
   },
   "dark": {
-    "backgroundColor": "#e2640d"
+    "backgroundColor": "#e2640d",
+    "dullBackgroundColor": "#333333",
+    "color": "#ffd561",
+    "dullColor": "#ffd561"
   }
 }

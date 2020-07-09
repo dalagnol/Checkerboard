@@ -91,10 +91,6 @@ export function User({ children }: Props) {
     [matching, setUser]
   );
 
-  const logout = useCallback(() => {
-    setUser(null);
-  }, [setUser]);
-
   const updateDB = useCallback(
     (newUser: IUser, add: boolean) => {
       if (add) {
@@ -110,6 +106,11 @@ export function User({ children }: Props) {
     },
     [database, setDatabase]
   );
+
+  const logout = useCallback(() => {
+    updateDB(user!, false);
+    setUser(null);
+  }, [user, setUser, updateDB]);
 
   const update = useCallback(
     (user: IUser) => {
