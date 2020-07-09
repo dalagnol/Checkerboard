@@ -11,6 +11,8 @@ import {
   toBinary,
 } from "helpers";
 import { Grids } from "interfaces/grids";
+import { useTheme } from "theme";
+import { useLocale } from "locale";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -31,6 +33,10 @@ export function User({ children }: Props) {
   const [user, setUser] = useState<IUser | null>(null);
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
   const [ready, setReady] = useState<boolean>(false);
+  const [init, setInit] = useState<boolean>(true);
+
+  const { set } = useLocale("UserContext", { en: {}, pt: {} });
+  const { theme } = useTheme();
 
   useEffect(() => {
     checkLS(["theme", "user"], {
@@ -43,6 +49,8 @@ export function User({ children }: Props) {
         password: "",
         type: 0,
         grids: [],
+        theme: "",
+        lang: "",
       },
     });
     setUser(load(LS_USER_KEY));
@@ -56,6 +64,8 @@ export function User({ children }: Props) {
           password: "123test",
           type: 0,
           grids: [{ id: 0, name: "first", data: toBinary(randomGrid()) }],
+          theme: "light",
+          lang: "en",
         },
       ];
       save(LS_DATABASE_KEY, users);
@@ -64,6 +74,14 @@ export function User({ children }: Props) {
     setReady(true);
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (user && init) {
+      theme.set(user?.theme);
+      set(user?.lang);
+      setInit(false);
+    }
+  }, [user, theme, set, init]);
 
   const matching = useCallback(
     (credential: string) => {
@@ -167,6 +185,8 @@ export function User({ children }: Props) {
                   grids: [
                     { id: 0, name: "first", data: toBinary(randomGrid()) },
                   ],
+                  theme: "light",
+                  lang: "en",
                 },
                 true
               );
@@ -276,7 +296,7 @@ export function User({ children }: Props) {
         setUserGrid,
         createGrid,
         removeGrid,
-        ready
+        ready,
       }}
     >
       {children}

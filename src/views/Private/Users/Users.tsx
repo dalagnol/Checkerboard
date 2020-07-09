@@ -53,7 +53,7 @@ export function Users() {
       {!user?.type ? (
         <Main>
           <Title>
-            <Text>User Management</Text>
+            <Text>Users</Text>
           </Title>
           <SearchBar setUsersAppearing={setUsersAppearing} />
           <Element>

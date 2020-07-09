@@ -6511,8 +6511,8 @@ loader-utils@^1.1.0, loader-utils@^1.2.3, loader-utils@^1.4.0:
     emojis-list "^3.0.0"
     json5 "^1.0.1"
 
-"locale@file:../reactModules/locale":
-  version "1.0.0"
+"locale@file:/Users/julia/Sites/reactModules/locale":
+  version "1.0.2"
 
 locate-path@^2.0.0:
   version "2.0.0"

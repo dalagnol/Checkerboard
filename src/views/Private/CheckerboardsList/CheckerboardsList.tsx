@@ -131,7 +131,7 @@ export function CheckerboardsList() {
     <Container>
       <Main>
         <Title>
-          <Text>Checkerboards List</Text>
+          <Text>Checkerboards</Text>
         </Title>
         {grids.length < 5 && <Add onClick={() => setCreating(true)} />}
         <Checkerboards>

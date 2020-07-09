@@ -1,14 +1,14 @@
 {
   "en": {
     "Common users don't have access to this feature.": "Common users don't have access to this feature.",
-    "User Management": "User Management",
+    "Users": "Users",
     "There are no users": "There are no users",
     "Common": "Common",
     "Administrator": "Administrator"
   },
   "pt": {
     "Common users don't have access to this feature.": "Usuários comuns não possuem acesso a esse recurso.",
-    "User Management": "Gerenciamento de Usuários",
+    "Users": "Usuários",
     "There are no users": "Não há usuários",
     "Common": "Comum",
     "Administrator": "Administrador"

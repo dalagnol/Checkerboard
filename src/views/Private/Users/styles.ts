@@ -22,7 +22,7 @@ export const Container = styled.main`
 export const Main = styled.main`
   overflow: hidden;
 
-  width: 380px;
+  width: 320px;
   height: 500px;
 
   border-radius: 20px;

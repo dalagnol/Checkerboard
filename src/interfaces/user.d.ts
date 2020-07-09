@@ -28,6 +28,10 @@ export type ICreateUserData = {
   password: string;
 };
 
+export type IThemes = "light" | "dark";
+
+export type ILangs = "en" | "pt";
+
 export interface IUser {
   id: number;
   type: IUserType;
@@ -36,6 +40,8 @@ export interface IUser {
   gender: string;
   password: string;
   grids: Array<Grids.IGrid>;
+  theme: IThemes;
+  lang: ILangs;
 }
 
 export type IUserContext = {

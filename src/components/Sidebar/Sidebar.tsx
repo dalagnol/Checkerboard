@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import { UserContext } from "controllers";
 import { useLocale } from "locale";
 import { useTheme } from "theme";
 import { themejson } from "./json";
+import { IThemes, ILangs } from "interfaces/user";
 
 import { useHistory, useLocation } from "react-router-dom";
 import { landing, profile, grids, users } from "routes/paths";
@@ -20,7 +21,7 @@ import {
 } from "./styles";
 
 export function Sidebar() {
-  const { user, logout } = useContext(UserContext);
+  const { user, update, logout } = useContext(UserContext);
   const { set, language } = useLocale("Sidebar", { en: {}, pt: {} });
   const { theme } = useTheme("Sidebar", themejson);
 
@@ -29,15 +30,36 @@ export function Sidebar() {
   const { push } = useHistory();
   const { pathname } = useLocation();
 
+  const setTheme = useCallback(
+    (t: IThemes) => {
+      theme.set(t);
+      if (user) {
+        update({ ...user, theme: t });
+      }
+    },
+    [theme, user, update]
+  );
+
+  const setLang = useCallback(
+    (l: ILangs) => {
+      set(l);
+      if (user) {
+        update({ ...user, lang: l });
+      }
+    },
+    [set, user, update]
+  );
+
   const dull = pathname.includes("grid/");
+
   return (
     <Element dull={dull}>
       {theme.current === "light" ? (
-        <Light onClick={() => theme.set("dark")} dull={dull} />
+        <Light onClick={() => setTheme("dark")} dull={dull} />
       ) : (
-        <Dark onClick={() => theme.set("light")} dull={dull} />
+        <Dark onClick={() => setTheme("light")} dull={dull} />
       )}
-      <Language onClick={() => set(oppositeLang)} dull={dull} />
+      <Language onClick={() => setLang(oppositeLang)} dull={dull} />
       {user && (
         <>
           <Main
