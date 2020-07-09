@@ -44,25 +44,40 @@ export function CheckerboardsList() {
 
   const { push } = useHistory();
 
+  const create = useCallback(() => {
+    try {
+      createGrid(newGridName);
+      setCreating(false);
+    } catch ({ message }) {
+      if (message.includes("name")) {
+        setError(true);
+      }
+    }
+  }, [createGrid, setCreating, setError, newGridName]);
+
   const keyHandler = useCallback(
     (e: any) => {
       if (e.keyCode === 13) {
-        try {
-          setUserGrid(editing.id, editing.name, editing.data);
-          setEditing({
-            state: false,
-            id: 0,
-            name: "",
-            data: "",
-          });
-        } catch ({ message }) {
-          if (message.includes("name")) {
-            setError(true);
+        if (editing.state) {
+          try {
+            setUserGrid(editing.id, editing.name, editing.data);
+            setEditing({
+              state: false,
+              id: 0,
+              name: "",
+              data: "",
+            });
+          } catch ({ message }) {
+            if (message.includes("name")) {
+              setError(true);
+            }
           }
+        } else {
+          create();
         }
       }
     },
-    [setUserGrid, setEditing, editing]
+    [setUserGrid, setEditing, editing, create]
   );
 
   const checkerboardsList = useMemo(
@@ -108,17 +123,6 @@ export function CheckerboardsList() {
     [grids, push, removeGrid, editing, keyHandler, error]
   );
 
-  const create = () => {
-    try {
-      createGrid(newGridName);
-      setCreating(false);
-    } catch ({ message }) {
-      if (message.includes("name")) {
-        setError(true);
-      }
-    }
-  };
-
   useEffect(() => {
     if (error) {
       setTimeout(() => {
@@ -127,9 +131,22 @@ export function CheckerboardsList() {
     }
   }, [error]);
 
+  const close = useCallback(() => {
+    if (creating) {
+      setCreating(false);
+    } else if (editing.state) {
+      setEditing({
+        state: false,
+        id: 0,
+        name: "",
+        data: "",
+      });
+    }
+  }, [creating, editing]);
+
   return (
     <Container>
-      <Main>
+      <Main onClick={close}>
         <Title>
           <Text>Checkerboards</Text>
         </Title>
@@ -141,6 +158,8 @@ export function CheckerboardsList() {
                 type={"text"}
                 name={"name"}
                 onChange={(e: any) => setNewGridName(e.target.value)}
+                onKeyDown={keyHandler}
+                error={error}
               />
               <Button onClick={create}>Save</Button>
             </div>

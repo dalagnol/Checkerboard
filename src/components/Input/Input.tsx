@@ -4,7 +4,14 @@ import { themejson } from "./json";
 
 import { Input as Element } from "./styles";
 
-export function Input({ type, name, value, onChange }: Props) {
+export function Input({
+  type,
+  name,
+  value,
+  onChange,
+  onKeyDown,
+  error,
+}: Props) {
   useTheme("Input", themejson);
   return (
     <Element
@@ -13,6 +20,8 @@ export function Input({ type, name, value, onChange }: Props) {
       value={value}
       onChange={onChange}
       autoComplete={"off"}
+      onKeyDown={onKeyDown}
+      error={error}
     />
   );
 }
@@ -22,4 +31,6 @@ interface Props {
   name: string;
   value?: string;
   onChange: any;
+  onKeyDown?: any;
+  error?: boolean;
 }
