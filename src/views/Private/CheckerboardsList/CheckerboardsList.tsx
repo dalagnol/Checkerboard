@@ -94,6 +94,8 @@ export function CheckerboardsList() {
               onClick={(e: any) => e.stopPropagation()}
               onKeyDown={keyHandler}
               error={error}
+              onBlur={() => setEditing({ ...editing, state: false })}
+              autoFocus={true}
             />
           ) : (
             <Header
@@ -131,22 +133,9 @@ export function CheckerboardsList() {
     }
   }, [error]);
 
-  const close = useCallback(() => {
-    if (creating) {
-      setCreating(false);
-    } else if (editing.state) {
-      setEditing({
-        state: false,
-        id: 0,
-        name: "",
-        data: "",
-      });
-    }
-  }, [creating, editing]);
-
   return (
     <Container>
-      <Main onClick={close}>
+      <Main>
         <Title>
           <Text>Checkerboards</Text>
         </Title>
@@ -160,6 +149,8 @@ export function CheckerboardsList() {
                 onChange={(e: any) => setNewGridName(e.target.value)}
                 onKeyDown={keyHandler}
                 error={error}
+                onBlur={() => setCreating(false)}
+                autoFocus={true}
               />
               <Button onClick={create}>Save</Button>
             </div>

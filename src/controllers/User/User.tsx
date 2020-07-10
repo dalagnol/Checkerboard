@@ -107,6 +107,7 @@ export function User({ children }: Props) {
     (newUser: IUser, add: boolean) => {
       if (add) {
         database.push(newUser);
+        save(LS_DATABASE_KEY, database);
       } else {
         const res = database.map((user) =>
           user.id === newUser.id ? newUser : user
