@@ -12,25 +12,25 @@ import { Input, Button } from "components";
 export function Form() {
   const [data, setData] = useState<IData>({
     credential: "",
-    password: ""
+    password: "",
   });
   const [errors, setErrors] = useState<IAuthenticateErrors>({
     credential: false,
-    password: false
+    password: false,
   });
 
-  const { authenticate } = useContext(UserContext);
+  const { users, authenticate } = useContext(UserContext);
   const { Text } = useLocale("Login", dictionary);
 
   const { push } = useHistory();
 
   const onChangeHandler = (e: any) => {
     const {
-      target: { name, value }
+      target: { name, value },
     } = e;
     let result = {
       ...data,
-      [name]: value
+      [name]: value,
     };
     setData(result);
   };
@@ -53,7 +53,7 @@ export function Form() {
   };
 
   useEffect(() => {
-    if (Object.values(errors).some(value => value === true)) {
+    if (Object.values(errors).some((value) => value === true)) {
       setTimeout(() => {
         setErrors({ credential: false, password: false });
       }, 1000);
@@ -73,9 +73,11 @@ export function Form() {
       <Button onClick={authentication}>
         <Text>Sign in</Text>
       </Button>
-      <Link onClick={() => push(signup())}>
-        <Text>Sign up</Text>
-      </Link>
+      {users.length < 10 && (
+        <Link onClick={() => push(signup())}>
+          <Text>Sign up</Text>
+        </Link>
+      )}
     </Element>
   );
 }

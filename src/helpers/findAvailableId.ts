@@ -1,7 +1,5 @@
-import { IUser } from "interfaces/user";
-
-export function findAvailableId(db: Array<IUser>) {
-  const ids = db.map(user => user.id);
+export function findAvailableId(db: Array<any>) {
+  const ids = db.map((x) => x.id);
   ids.sort();
 
   let min = 0;

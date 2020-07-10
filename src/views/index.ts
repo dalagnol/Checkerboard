@@ -1,2 +1,9 @@
 export { SignIn, SignUp } from "./Public";
-export { Landing, Profile, Checkerboard, Users } from "./Private";
+export {
+  Landing,
+  Profile,
+  CheckerboardsList,
+  Checkerboard,
+  Users,
+} from "./Private";
+export { Loader } from "./ini";

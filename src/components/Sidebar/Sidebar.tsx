@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import { UserContext } from "controllers";
 import { useLocale } from "locale";
 import { useTheme } from "theme";
 import { themejson } from "./json";
+import { IThemes } from "interfaces/user";
 
 import { useHistory, useLocation } from "react-router-dom";
-import { landing, profile, checkerboard, users } from "routes/paths";
+import { landing, profile, grids, users } from "routes/paths";
 
 import {
-  Container,
   Sidebar as Element,
   Light,
   Dark,
@@ -17,52 +17,71 @@ import {
   Checkerboard,
   Profile,
   UsersManagement,
-  Logout
+  Logout,
 } from "./styles";
 
 export function Sidebar() {
-  const { user, logout } = useContext(UserContext);
-  const { set, language } = useLocale("Sidebar", { en: {}, pt: {} });
+  const { user, update, logout } = useContext(UserContext);
+  const { switchl } = useLocale("Sidebar", { en: {}, pt: {} });
   const { theme } = useTheme("Sidebar", themejson);
-
-  const oppositeLang = language === "en" ? "pt" : "en";
 
   const { push } = useHistory();
   const { pathname } = useLocation();
 
+  const setTheme = useCallback(
+    (t: IThemes) => {
+      theme.set(t);
+      if (user) {
+        update({ ...user, theme: t });
+      }
+    },
+    [theme, user, update]
+  );
+
+  const setLang = useCallback(() => {
+    switchl();
+    if (user) {
+      update({ ...user, lang: user?.lang === "en" ? "pt" : "en" });
+    }
+  }, [switchl, user, update]);
+
+  const dull = pathname.includes("grid/");
+
   return (
-    <Container>
-      <Element>
-        {theme.current === "light" ? (
-          <Light onClick={() => theme.set("dark")} />
-        ) : (
-          <Dark onClick={() => theme.set("light")} />
-        )}
-        <Language onClick={() => set(oppositeLang)} />
-        {user && (
-          <>
-            <Main
-              onClick={() => push(landing())}
-              selected={pathname === landing()}
+    <Element dull={dull}>
+      {theme.current === "light" ? (
+        <Light onClick={() => setTheme("dark")} dull={dull} />
+      ) : (
+        <Dark onClick={() => setTheme("light")} dull={dull} />
+      )}
+      <Language onClick={() => setLang()} dull={dull} />
+      {user && (
+        <>
+          <Main
+            onClick={() => push(landing())}
+            selected={pathname === landing()}
+            dull={dull}
+          />
+          <Checkerboard
+            onClick={() => push(grids())}
+            selected={pathname === grids()}
+            dull={dull}
+          />
+          <Profile
+            onClick={() => push(profile(user?.id))}
+            selected={pathname.includes("/user/")}
+            dull={dull}
+          />
+          {!user?.type && (
+            <UsersManagement
+              onClick={() => push(users())}
+              selected={pathname === users()}
+              dull={dull}
             />
-            <Checkerboard
-              onClick={() => push(checkerboard())}
-              selected={pathname === checkerboard()}
-            />
-            <Profile
-              onClick={() => push(profile(user?.id))}
-              selected={pathname.includes("/user/")}
-            />
-            {!user?.type && (
-              <UsersManagement
-                onClick={() => push(users())}
-                selected={pathname === users()}
-              />
-            )}
-            <Logout onClick={() => logout()} />
-          </>
-        )}
-      </Element>
-    </Container>
+          )}
+          <Logout onClick={() => logout()} dull={dull} />
+        </>
+      )}
+    </Element>
   );
 }

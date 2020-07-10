@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const Input = styled.input`
+interface Props {
+  error?: boolean;
+}
+export const Input = styled.input<Props>`
   border: none;
 
   cursor: pointer;
@@ -25,4 +28,9 @@ export const Input = styled.input`
   &:focus {
     background-color: ${({ theme }) => theme.input?.focus};
   }
+
+  ${({ error }) =>
+    error &&
+    `  animation: 0.9s shake;
+`}
 `;

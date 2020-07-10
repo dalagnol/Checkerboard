@@ -4,22 +4,18 @@ import { themejson } from "./json";
 
 import { Input as Element } from "./styles";
 
-export function Input({ type, name, value, onChange }: Props) {
-  useTheme("Input", themejson);
-  return (
-    <Element
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      autoComplete={"off"}
-    />
-  );
-}
-
 interface Props {
   type: string;
   name: string;
   value?: string;
   onChange: any;
+  onKeyDown?: any;
+  error?: boolean;
+  onBlur?: any;
+  autoFocus?: boolean;
+}
+
+export function Input(props: Props) {
+  useTheme("Input", themejson);
+  return <Element {...props} autoComplete={"off"} />;
 }

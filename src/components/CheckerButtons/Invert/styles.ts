@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { DropletHalf } from "@styled-icons/boxicons-solid/DropletHalf";
+import { Droplet } from "@styled-icons/feather/Droplet";
 
 interface Props {
   checked: number;
 }
 
-export const Invert = styled(DropletHalf)<Props>`
+export const Invert = styled(Droplet)<Props>`
   cursor: pointer;
 
   height: 30px;

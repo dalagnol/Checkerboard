@@ -1,4 +1,4 @@
-import { IGrid, b as bit } from "interfaces/Checker";
+import { IGrid, b as bit } from "interfaces/checker";
 
 export const r = (): bit => (Math.random() > 0.5 ? 1 : 0);
 

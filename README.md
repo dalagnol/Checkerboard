@@ -1,44 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Checkerboard
 
-## Available Scripts
+This application is a simple checkerboard in which each tile can be toggled to create all sorts of patterns and it saves up until 5 patterns per user.
 
-In the project directory, you can run:
+## Installation
 
-### `yarn start`
+To run this application you have to clone it locally. To clone it just copy the command below in your terminal:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+git clone https://github.com/dalagnol/checkerboard.git
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+After cloning it, using the package manager Yarn, type the following command to run it:
 
-### `yarn test`
+```
+yarn && yarn start
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
 
-### `yarn build`
+After your yarned it, you must see a login page.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![alt text](./assets/login.jpg)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+To login use the following data:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+{
+    name: "root",
+    email: "root@icloud.com",
+    password: "123test"
+}
+```
 
-### `yarn eject`
+After logging in, you will be redirected to the landing page.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![alt text](./assets/landing.jpg)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To access your checkerboards, just click on the checker icon on the sidebar.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Use your creativity to create multiple drawing and enjoy yourself!

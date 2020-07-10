@@ -7,7 +7,12 @@ import {
   findAvailableId,
   checkLS,
   checkIfUserExists,
+  randomGrid,
+  toBinary,
 } from "helpers";
+import { Grids } from "interfaces/grids";
+import { useTheme } from "theme";
+import { useLocale } from "locale";
 
 const LS_USER_KEY = "user";
 const LS_DATABASE_KEY = "users";
@@ -15,24 +20,20 @@ const LS_DATABASE_KEY = "users";
 interface Props {
   children: any;
 }
-interface User {
-  id: number;
-  type: IUserType;
-  name: string;
-  email: string;
-  gender: string;
-  password: string;
-}
 
 export function User({ children }: Props) {
   const [user, setUser] = useState<IUser | null>(null);
   const [database, setDatabase] = useState<Array<IUser>>(load(LS_DATABASE_KEY));
+  const [ready, setReady] = useState<boolean>(false);
+  const [init, setInit] = useState<boolean>(true);
+
+  const { set } = useLocale("UserContext", { en: {}, pt: {} });
+  const { theme } = useTheme();
 
   useEffect(() => {
-    debugger;
-    console.log("here");
-    checkLS(["theme", "user"], {
+    checkLS(["theme", "lang", "user"], {
       theme: ["light", "dark"],
+      lang: ["en", "pt"],
       user: {
         id: 0,
         name: "",
@@ -40,6 +41,9 @@ export function User({ children }: Props) {
         gender: "",
         password: "",
         type: 0,
+        grids: [],
+        theme: "",
+        lang: "",
       },
     });
     setUser(load(LS_USER_KEY));
@@ -52,13 +56,24 @@ export function User({ children }: Props) {
           gender: "Male",
           password: "123test",
           type: 0,
+          grids: [{ id: 0, name: "first", data: toBinary(randomGrid()) }],
+          theme: "light",
+          lang: "en",
         },
       ];
-      save(LS_DATABASE_KEY, users);
       setDatabase(users as Array<IUser>);
     }
+    setReady(true);
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (user && init) {
+      theme.set(user?.theme);
+      set(user?.lang);
+      setInit(false);
+    }
+  }, [user, theme, set, init]);
 
   const matching = useCallback(
     (credential: string) => {
@@ -88,10 +103,6 @@ export function User({ children }: Props) {
     [matching, setUser]
   );
 
-  const logout = useCallback(() => {
-    setUser(null);
-  }, [setUser]);
-
   const updateDB = useCallback(
     (newUser: IUser, add: boolean) => {
       if (add) {
@@ -102,11 +113,15 @@ export function User({ children }: Props) {
           user.id === newUser.id ? newUser : user
         );
         setDatabase(res);
-        save(LS_DATABASE_KEY, res);
       }
     },
     [database, setDatabase]
   );
+
+  const logout = useCallback(() => {
+    updateDB(user!, false);
+    setUser(null);
+  }, [user, setUser, updateDB]);
 
   const update = useCallback(
     (user: IUser) => {
@@ -156,8 +171,13 @@ export function User({ children }: Props) {
               updateDB(
                 {
                   id: findAvailableId(database),
-                  ...data,
                   type: type || 1,
+                  ...data,
+                  grids: [
+                    { id: 0, name: "First", data: toBinary(randomGrid()) },
+                  ],
+                  theme: "light",
+                  lang: "en",
                 },
                 true
               );
@@ -180,7 +200,6 @@ export function User({ children }: Props) {
     (id: number) => {
       const res = database.filter((user) => user.id !== id);
       setDatabase(res);
-      save(LS_DATABASE_KEY, res);
     },
     [database, setDatabase]
   );
@@ -191,28 +210,86 @@ export function User({ children }: Props) {
         user.id === id ? { ...user, type: type } : user
       );
       setDatabase(res);
-      save(LS_DATABASE_KEY, res);
 
       return true;
     },
     [database, setDatabase]
   );
 
+  const setUserGrid = useCallback(
+    (id: number, name: string, data: Grids.GridBinary) => {
+      if (
+        name &&
+        !user!.grids.find((grid) => grid.name === name && grid.id !== id)
+      ) {
+        setUser({
+          ...user,
+          grids: user!.grids.map((grid) =>
+            grid.id === id ? { id, name, data } : grid
+          ),
+        } as IUser);
+      } else {
+        throw new Error("This name is already being used");
+      }
+    },
+    [user]
+  );
+
+  const createGrid = useCallback(
+    (name: string) => {
+      if (user!.grids.find((grid) => grid.name === name)) {
+        throw new Error("This name is already being used");
+      } else {
+        setUser({
+          ...user,
+          grids: [
+            ...user!.grids,
+            {
+              id: findAvailableId(user!.grids),
+              name,
+              data: toBinary(randomGrid()),
+            },
+          ],
+        } as IUser);
+      }
+    },
+    [user]
+  );
+
+  const removeGrid = useCallback(
+    (id: number) => {
+      setUser({
+        ...user,
+        grids: user!.grids.filter((grid) => grid.id !== id),
+      } as IUser);
+    },
+    [user]
+  );
+
   useEffect(() => {
     save(LS_USER_KEY, user);
   }, [user]);
+
+  useEffect(() => {
+    save(LS_DATABASE_KEY, database);
+  }, [database]);
 
   return (
     <UserContext.Provider
       value={{
         user,
         users: database,
+        grids: user?.grids!,
         authenticate,
         update,
         logout,
         create,
         remove,
         changeType,
+        setUserGrid,
+        createGrid,
+        removeGrid,
+        ready,
       }}
     >
       {children}

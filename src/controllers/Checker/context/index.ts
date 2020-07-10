@@ -1,1 +1,1 @@
-export { Checker as CheckerContext } from "./Checker";
+export { Checker as CheckerboardContext } from "./Checker";

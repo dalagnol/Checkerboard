@@ -1,72 +1,81 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { load, save, randomGrid, toBinary, toGrid, zeroesGrid } from "helpers";
+import React, { useState, useCallback, useEffect, useContext } from "react";
+import { randomGrid, toBinary, toGrid, zeroesGrid } from "helpers";
+import { Grids } from "interfaces/grids";
+import { UserContext } from "controllers";
+import { useParams } from "react-router-dom";
+import { CheckerboardContext } from "./context";
 import { IGrid } from "interfaces/checker";
-
-import { CheckerContext } from "./context";
 
 interface Props {
   children: any;
 }
 
-const LS_GRID = "grid";
-
 export function CheckerBoard({ children }: Props) {
-  const [grid, setGrid] = useState<IGrid>(zeroesGrid);
+  const { id } = useParams();
+
+  const { grids, setUserGrid } = useContext(UserContext);
+  const [grid, setGrid] = useState<Grids.IGrid>({ id: 0, name: "", data: "" });
+  const [data, setData] = useState<IGrid>(zeroesGrid);
 
   useEffect(() => {
-    if (!load(LS_GRID)) {
-      save(LS_GRID, toBinary(randomGrid()));
-      setGrid(randomGrid);
+    const currentGrid = grids.find((grid) => grid.id === Number(id));
+    if (!grid.data && currentGrid) {
+      setGrid(currentGrid);
+      setData(toGrid(currentGrid.data));
     } else {
-      setGrid(toGrid(load(LS_GRID)));
+      throw new Error("You cannot access this checkerboard");
     }
+    // eslint-disable-next-line
   }, []);
 
   const check = useCallback(
     (x: number, y: number) => {
-      const result = grid.map((row, i) =>
+      const result = data.map((row, i) =>
         i === x ? row.map((bit, j) => (j === y ? 1 : bit)) : [...row]
       );
-      setGrid(result as IGrid);
+      setData(result as IGrid);
     },
-    [grid]
+    [data]
   );
 
   const uncheck = useCallback(
     (x: number, y: number) => {
-      const result = grid.map((row, i) =>
+      const result = data.map((row, i) =>
         i === x ? row.map((bit, j) => (j === y ? 0 : bit)) : [...row]
       );
-      setGrid(result as IGrid);
+      setData(result as IGrid);
     },
-    [grid]
+    [data]
   );
 
   const toggle = useCallback(
     (x: number, y: number) => {
-      grid[x][y] ? uncheck(x, y) : check(x, y);
+      data[x][y] ? uncheck(x, y) : check(x, y);
     },
-    [grid, check, uncheck]
+    [data, check, uncheck]
   );
 
   const shuffle = useCallback(() => {
-    setGrid(randomGrid());
-  }, [setGrid]);
+    setData(randomGrid());
+  }, [setData]);
 
   const invert = useCallback(() => {
-    const result = grid.map(row => row.map(bit => (bit ? 0 : 1)));
-    setGrid(result as IGrid);
-  }, [grid]);
+    const result = data.map((row) => row.map((bit) => (bit ? 0 : 1)));
+    setData(result as IGrid);
+  }, [data]);
 
   useEffect(() => {
-    save(LS_GRID, toBinary(grid));
-  }, [grid]);
+    if (Number(toBinary(data))) {
+      setUserGrid(grid.id, grid.name, toBinary(data));
+    }
+    // eslint-disable-next-line
+  }, [data]);
 
   return (
-    <CheckerContext.Provider
-      value={{ grid, toggle, check, uncheck, shuffle, invert }}
+    <CheckerboardContext.Provider
+      value={{ grid: data, toggle, check, uncheck, shuffle, invert }}
     >
       {children}
-    </CheckerContext.Provider>
+    </CheckerboardContext.Provider>
   );
 }

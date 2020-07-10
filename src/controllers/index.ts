@@ -1,2 +1,2 @@
 export { User, UserContext } from "./User";
-export { CheckerBoard, CheckerContext } from "./Checker";
+export { CheckerBoard, CheckerboardContext } from "./Checker";
