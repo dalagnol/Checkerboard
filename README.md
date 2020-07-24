@@ -38,4 +38,6 @@ After logging in, you will be redirected to the landing page.
 
 To access your checkerboards, just click on the checker icon on the sidebar.
 
+![alt text](./assets/grids.jpg)
+
 Use your creativity to create multiple drawing and enjoy yourself!
